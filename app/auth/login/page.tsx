@@ -1,10 +1,11 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/components/Notification";
 import Link from "next/link";
 import Image from "next/image";
+import LoadingSkeleton from "@/components/Skeleton/LoadingSkeleton";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,13 +13,16 @@ export default function Login() {
   const { data: session } = useSession(); // Check if user is authenticated
   const router = useRouter();
   const { showNotification } = useNotification();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Redirect to home if the user is already logged in
-  if (session) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    } else {
+      setLoading(false); // Only set loading to false once session check is done
+    }
+  }, [session, router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +37,10 @@ export default function Login() {
       router.push("/");
     }
   };
+
+  if (loading) {
+    return <LoadingSkeleton />;  // Show skeleton loader while loading
+  }
 
   return (
     <div className="flex items-center justify-center flex-col w-full min-h-screen gap-10">
@@ -76,12 +84,12 @@ export default function Login() {
         </span>
         <p className="w-full text-gray-500 text-center">or</p>
 
-        <button onClick={() => signIn("google", { callbackUrl: "/" })} className="bg-[#4285F4] text-white px-4 py-2 m-2 w-full rounded-md mt-2 flex justify-center items-center gap-2 hover:scale-110 transition-all ease-out">
+        <button onClick={() => signIn("google", { callbackUrl: "/home" })} className="bg-[#4285F4] text-white px-4 py-2 m-2 w-full rounded-md mt-2 flex justify-center items-center gap-2 hover:scale-110 transition-all ease-out">
           <Image src="https://cdn-icons-png.flaticon.com/512/2702/2702602.png" alt="Google Logo" width={20} height={20} className="mr-2" />
           Login with Google
         </button>
 
-        <button onClick={() => signIn("github", { prompt: "login", callbackUrl: "/" })} className="bg-[#333] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 w-full hover:scale-110 transition-all ease-out">
+        <button onClick={() => signIn("github", { prompt: "login", callbackUrl: "/home" })} className="bg-[#333] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 w-full hover:scale-110 transition-all ease-out">
           <Image src="https://cdn-icons-png.flaticon.com/512/2111/2111425.png" alt="GitHub Logo" width={20} height={20} className="mr-2" />
           Login with GitHub
         </button>

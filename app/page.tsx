@@ -1,6 +1,9 @@
 'use client'
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import ShuffleHero from '@/components/Hero/AnimatedHero'
+import { TextParallaxContents } from "@/components/FeatureSection/TextParallaxContent";
+import { BentoGridThird } from "@/components/BentoGrid/BentoGridThird";
 export default function Home() {
   const router=useRouter();
   const handleLogout = async () => {
@@ -10,12 +13,9 @@ export default function Home() {
   return (
  
  <div className="min-h-screen w-full flex flex-col justify-center items-center ">
-  <h1 className="text-blue-500 text-5xl">Hello
-    <br />
-  <button className="btn btn-outline">Default</button>
-  <button className="btn btn-outline" onClick={handleLogout}>Logout</button>
-
-  </h1>
+<ShuffleHero/>
+<BentoGridThird/>
+<TextParallaxContents/>
  </div>
   );
 }
