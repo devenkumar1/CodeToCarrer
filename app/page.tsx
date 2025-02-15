@@ -9,8 +9,9 @@ export default function Home() {
   };
   return (
  
- <div>
-  <h1 className="text-blue-500">Hello
+ <div className="min-h-screen w-full flex flex-col justify-center items-center ">
+  <h1 className="text-blue-500 text-5xl">Hello
+    <br />
   <button className="btn btn-outline">Default</button>
   <button className="btn btn-outline" onClick={handleLogout}>Logout</button>
 
