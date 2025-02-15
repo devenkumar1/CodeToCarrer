@@ -4,11 +4,13 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'  // Import useRouter for navigation
-import { signIn } from 'next-auth/react'
+import { signIn,useSession } from 'next-auth/react'
 import Image from 'next/image'
 
 function signup() {
+  const { data: session } = useSession();
   const [signedUpUser, setSignedUpUser] = useState({});
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -22,6 +24,7 @@ function signup() {
   }
 
   const handleSignup = async () => {
+    setLoading(true);
     try {
       if (!formData.email || !formData.password || !formData.name) {
         toast.error("All fields are required");
@@ -30,12 +33,13 @@ function signup() {
 
       const response = await axios.post("/api/auth/signup", formData);
       setSignedUpUser(response.data);
+      setLoading(false);
 
       if (response.status === 201) {
         toast.success("User registered successfully");
         console.log(signedUpUser);
 
-        // Redirect to login page after successful signup
+       // Redirect to login page after successful signup
         router.push("/auth/login");
       }
     } catch (error) {
@@ -43,7 +47,10 @@ function signup() {
       toast.error("Something went wrong. Please try again.");
     }
   }
-
+  if (session) {
+    router.push("/");
+    return null;
+  }
   return (
     <div className='flex items-center justify-center flex-col w-full min-h-screen gap-10'>
       <h1 className='text-5xl text-blue-600 text-center'>Signup</h1>
