@@ -17,18 +17,18 @@ npm install
 
 ```bash
 
-NEXT_PUBLIC_API_URL = http://localhost:3000/api
+MONGODB_URI = "your connection string"
 
-MONGODB_URI = your-mongodb-url
-JWT_SECRET= your jwt string
+JWT_SECRET= "your secret key"
+## Google OAuth credentials
+GOOGLE_CLIENT_ID="generate and paste here your google client"
+GOOGLE_CLIENT_SECRET="paste your google client secret here"
 
-# Google OAuth credentials
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-#Github OAuth credentials
-GITHUB_CLIENT_ID=your-github-client-id
-GITHUB_CLIENT_SECRET=your-github-client-secret
+## Github OAuth credentials
+GITHUB_ID="your github client id"
+GITHUB_SECRET="your github client secret"
+NEXTAUTH_SECRET="your secret"
+NEXTAUTH_URL=http://localhost:3000
 
 ```
 
@@ -95,3 +95,9 @@ The request should include the necessary headers for authentication and content 
 - Ensure that the request body includes the required fields: email and password.
 - The response will contain a message confirming the success of the login process.
 
+
+# Authentication Types
+## using next-auth for authentication
+- **Credentials**: The user logs in using their email and password.
+- **Google**: The user logs in using their Google account.
+- **Github**: The user logs in using their Github account.
