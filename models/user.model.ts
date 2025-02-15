@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcrypt";
 
 export interface IUser {
     _id?: mongoose.Types.ObjectId;
@@ -39,12 +39,12 @@ const userSchema = new mongoose.Schema<IUser>(
     }
 )
 
-userSchema.pre("save", async function (next) {
-    if (this.isModified("password")) {
-        this.password = await bcrypt.hash(this.password, 10);
-    }
-    next();
-});
+// userSchema.pre("save", async function (next) {
+//     if (this.isModified("password")) {
+//         this.password = await bcrypt.hash(this.password, 10);
+//     }
+//     next();
+// });
 
 export const User = mongoose.models?.User ||mongoose.model<IUser>("User", userSchema);
 
