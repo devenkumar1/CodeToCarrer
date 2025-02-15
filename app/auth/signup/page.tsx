@@ -4,6 +4,8 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'  // Import useRouter for navigation
+import { signIn } from 'next-auth/react'
+import Image from 'next/image'
 
 function signup() {
   const [signedUpUser, setSignedUpUser] = useState({});
@@ -121,6 +123,18 @@ function signup() {
         <span>Already have an account?
           <Link href={'/auth/login'}> Login</Link>
         </span>
+        <p className='w-full text-gray-500 text-center'>or</p>
+        <button onClick={() => signIn("google", { callbackUrl: "/" })} className="bg-[#4285F4]  text-white px-4 py-2  m-2 w-full rounded-md mt-2 flex justify-center items-center gap-2 hover:scale-110 transition-all ease-out ">
+          <Image src={"https://cdn-icons-png.flaticon.com/512/2702/2702602.png"} alt="Google Logo" width={20} height={20} className="mr-2"></Image>
+          Signup with Google
+        </button>
+        <button onClick={() => signIn("github", { prompt: "login", callbackUrl: "/" })} className="bg-[#333] text-white px-4 py-2 rounded-md  flex justify-center items-center gap-2  w-full hover:scale-110 transition-all ease-out">
+          <Image src={"https://cdn-icons-png.flaticon.com/512/2111/2111425.png"} alt="Google Logo" width={20} height={20} className="mr-2"></Image>
+
+          Signup with GitHub
+        </button>
+
+
       </div>
     </div>
   );

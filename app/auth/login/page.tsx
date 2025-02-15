@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/components/Notification";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -76,10 +77,24 @@ export default function Login() {
           </button>
         </form>
 
+
         <br />
         <span>Don't have an account?
           <Link href={'/auth/signup'}> Signup</Link>
         </span>
+        <p className="w-full text-gray-500 text-center">or</p>
+                      <button onClick={() => signIn("google", { callbackUrl: "/" })} className="bg-[#4285F4]  text-white px-4 py-2  m-2 w-full rounded-md mt-2 flex justify-center items-center gap-2 hover:scale-110 transition-all ease-out ">
+                      <Image src={"https://cdn-icons-png.flaticon.com/512/2702/2702602.png"} alt="Google Logo" width={20} height={20} className="mr-2"></Image>
+                        Login with Google
+                      </button>
+        
+       <button onClick={() => signIn("github", { prompt: "login", callbackUrl: "/" })} className="bg-[#333] text-white px-4 py-2 rounded-md  flex justify-center items-center gap-2  w-full hover:scale-110 transition-all ease-out">
+                <Image src={"https://cdn-icons-png.flaticon.com/512/2111/2111425.png"} alt="Google Logo" width={20} height={20} className="mr-2"></Image>
+      
+                        Login with GitHub
+                      </button>
+                      
+
       </div>
     </div>
   );
