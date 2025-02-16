@@ -296,10 +296,10 @@ const SkeletonFive = () => {
 };
 const items = [
   {
-    title: "AI Content Generation",
+    title: "AI Powered smart Learning",
     description: (
       <span className="text-sm">
-        Experience the power of AI in generating unique content.
+        Experience the power of AI in learning coding
       </span>
     ),
     header: <SkeletonOne />,
@@ -307,10 +307,10 @@ const items = [
     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
   },
   {
-    title: "Automated Proofreading",
+    title: "Achieve Mastery",
     description: (
       <span className="text-sm">
-        Let AI handle the proofreading of your documents.
+        Let The code work for you.
       </span>
     ),
     header: <SkeletonTwo />,
@@ -318,10 +318,10 @@ const items = [
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
   },
   {
-    title: "Contextual Suggestions",
+    title: "Personalized Roadmap",
     description: (
       <span className="text-sm">
-        Get AI-powered suggestions based on your writing context.
+        Get AI powered personlaized learning Roadmap for you.
       </span>
     ),
     header: <SkeletonThree />,
@@ -329,10 +329,10 @@ const items = [
     icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
   },
   {
-    title: "Sentiment Analysis",
+    title: "Feedback and Guidance",
     description: (
       <span className="text-sm">
-        Understand the sentiment of your text with AI analysis.
+        Understand the trends and best coding practices with your AI Mentor. 
       </span>
     ),
     header: <SkeletonFour />,
@@ -341,10 +341,10 @@ const items = [
   },
 
   {
-    title: "Text Summarization",
+    title: "Practice And Master",
     description: (
       <span className="text-sm">
-        Summarize your lengthy documents with AI technology.
+        Master the tools to achieve mastery.
       </span>
     ),
     header: <SkeletonFive />,
