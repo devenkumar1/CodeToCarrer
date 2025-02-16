@@ -79,7 +79,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
          </ul>
        </details>
      </li>
-     <li><a>code practice</a></li>
+     <li><Link href={"/code-reviewer"}>Code Editor</Link></li>
    </ul>
  </div>
 ):(

@@ -8,7 +8,7 @@ const technicalProfileSchema = new mongoose.Schema({
   technology: [
     {
       name: {
-        type: String,
+        type: String,     
         required: true,
       },
       skillLevel: {

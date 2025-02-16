@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@tabler/icons-react": "^3.30.0",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
@@ -27,10 +28,13 @@
     "motion": "^12.4.3",
     "next": "15.1.7",
     "next-auth": "^4.24.11",
+    "prismjs": "^1.29.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",
     "react-icons": "^5.4.0",
+    "react-markdown": "^9.0.3",
+    "react-simple-code-editor": "^0.14.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.3"
@@ -39,6 +43,7 @@
     "@eslint/eslintrc": "^3",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/prismjs": "^1.26.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "daisyui": "^4.12.23",
