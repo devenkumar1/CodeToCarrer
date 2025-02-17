@@ -86,8 +86,8 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
        <details>
          <summary>Learning</summary>
          <ul className="p-2">
-           <li><a>mentor</a></li>
-           <li><a>test</a></li>
+           <li><Link href={"/AiMentor"}>Mentor</Link></li>
+           <li><Link href={"/test"}>Mentor</Link></li>
            <li><a>chat</a></li>
          </ul>
        </details>
