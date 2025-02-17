@@ -38,20 +38,33 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
               />
             </svg>
           </div>
-          <ul
+
+          {/*Logged in */}
+          {
+            session?  <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li><a>Item 1</a></li>
+            <li><Link href={"/home"}>Home</Link></li>
             <li>
-              <a>Parent</a>
+              <a><Link href={"/dashboard"}>dashboard</Link></a>
               <ul className="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
+                <li><Link href={"/AiMentor"}>Ai Mentor</Link></li>
+                <li><Link href={"/code-reviewer"}>code editor</Link></li>
               </ul>
             </li>
-            <li><a>Item 3</a></li>
+            <li><Link href={"/learning-path"}>Learning paths</Link></li>
+          </ul>: <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          >
+            <li><Link href={"/"}>Home</Link></li>
+            <li><Link href={"/"}>Login</Link></li>
           </ul>
+          
+          }
+          {/*Not logged In */}
+         
         </div>
         {session?(
           <Link href={"/home"}><IoHome  className='text-4xl mx-2'   /></Link>
