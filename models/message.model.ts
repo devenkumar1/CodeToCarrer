@@ -7,6 +7,7 @@ interface Imessage{
     receiverId:mongoose.Types.ObjectId;
     createdAt:Date;
      updatedAt:Date;
+     chatId:mongoose.Types.ObjectId;
 }
 
 const messageSchema: mongoose.Schema<Imessage> = new mongoose.Schema({
@@ -22,7 +23,10 @@ const messageSchema: mongoose.Schema<Imessage> = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId || String,
         default:"gemini"
     },
-    
+    chatId:{
+        type:mongoose.Schema.Types.ObjectId || String,
+        required:true
+    }
 },{timestamps:true})
 
 

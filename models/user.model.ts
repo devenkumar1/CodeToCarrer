@@ -12,6 +12,7 @@ export interface IUser {
   providerId?: string; // Store the provider's unique user ID (e.g., Google/GitHub user ID)
   createdAt?: Date;
   updatedAt?: Date;
+  AiMentorChats?:mongoose.Types.ObjectId[];
 }
 
 // Define the user schema
@@ -43,6 +44,12 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       required: false, // Store the OAuth provider's user ID
     },
+    AiMentorChats:[
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Chat"
+       }
+    ]
   },
   {
     timestamps: true,
