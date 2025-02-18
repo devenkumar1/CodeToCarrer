@@ -1,13 +1,29 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
 import { FiSend, FiSearch, FiPlus, FiMenu } from "react-icons/fi";
-// import { format } from "date-fns";
+import axios from "axios";
 
 const ChatBot = () => {
+  const [allChats,setAllChats]=useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeChat, setActiveChat] = useState(0);
   const [newMessage, setNewMessage] = useState("");
+  const [isLoading,setIsLoading]=useState(false);
   const chatEndRef = useRef(null);
+  useEffect(()=>{
+    setIsLoading(true);
+   fetchAllChats();
+   setIsLoading(false);
+  },[])
+
+  const fetchAllChats=async()=>{
+    try {
+      const response= await axios.get("/api/mentor/chat",{withCredentials:true});
+      console.log("response",response);
+    } catch (error) {
+      console.log("error in fetching all chats",error);
+    }
+  }
 
   const dummyTopics = [
     { id: 0, title: "Web Development Queries", lastMessage: new Date(2024, 0, 15) },
@@ -36,10 +52,10 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden bg-gray-50">
+    <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-gray-900 ">
       {/* Sidebar */}
-      <div className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} fixed md:relative md:translate-x-0 z-30 w-72 h-full transition-transform duration-300 ease-in-out bg-white border-r border-gray-200`}>
-        <div className="p-4 border-b border-gray-200">
+      <div className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} fixed md:relative md:translate-x-0 z-30 w-72 h-full transition-transform duration-300 ease-in-out bg-white border-r border-gray-200 dark:bg-gray-900 dark:text-white dark:border-gray-700`}>
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 dark:text-white">
           <div className="flex items-center justify-between mb-4">
             <button onClick={()=>setIsSidebarOpen(!isSidebarOpen)} className="lg:hidden"> close</button>
             <h2 className="text-xl font-semibold text-gray-800" >Chats</h2>
@@ -47,7 +63,7 @@ const ChatBot = () => {
               <FiPlus className="w-5 h-5 text-gray-600" />
             </button>
           </div>
-          <div className="relative">
+          <div className="relative ">
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
@@ -80,8 +96,8 @@ const ChatBot = () => {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden ">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white dark:bg-gray-900 dark:text-white">
           <div className="flex items-center">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -95,14 +111,14 @@ const ChatBot = () => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+        <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
           {dummyMessages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} mb-4`}
             >
               <div
-                className={`max-w-[70%] p-3 rounded-lg ${message.sender === "user" ? "bg-blue-500 text-white" : "bg-white text-gray-800"} shadow-sm`}
+                className={`max-w-[70%] p-3 rounded-lg ${message.sender === "user" ? "bg-blue-500 text-white" : "bg-[#1f2937] text-white"} shadow-sm`}
               >
                 <p className="text-sm">{message.text}</p>
                 <p className="text-xs mt-1 opacity-70">
