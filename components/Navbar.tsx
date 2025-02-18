@@ -47,7 +47,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
           >
             <li><Link href={"/home"}>Home</Link></li>
             <li>
-              <a><Link href={"/dashboard"}>dashboard</Link></a>
+              <Link href={"/dashboard"}>dashboard</Link>
               <ul className="p-2">
                 <li><Link href={"/AiMentor"}>Ai Mentor</Link></li>
                 <li><Link href={"/code-reviewer"}>code editor</Link></li>
