@@ -4,7 +4,7 @@ import axios from 'axios'
 import CodeReviewResult from '@/components/codeReviewResult'
 import { BasicEditor } from '@/components/BasicEditor'
 
-function codeReviewer() {
+function CodeReviewer() {
     const [code, setCode] = useState("");
     const [language, setLanguage] = useState("");
     const [resultData, setResultData] = useState<any>(null);
@@ -65,4 +65,5 @@ function codeReviewer() {
     )
 }
 
-export default codeReviewer;
+export default CodeReviewer;
+
