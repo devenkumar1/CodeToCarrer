@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Message from './message.model';
 
 interface IChat{
      _id?: mongoose.Types.ObjectId;
@@ -14,7 +15,7 @@ const chatSchema: mongoose.Schema<IChat> = new mongoose.Schema({
      },
      messages:[
           {
-            type:mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref:"Message"
            }
         ],
@@ -25,7 +26,7 @@ const chatSchema: mongoose.Schema<IChat> = new mongoose.Schema({
 
 },{timestamps:true})
 
-const Chat = mongoose.model<IChat>("Chat",chatSchema)
+const Chat =  mongoose.models.Chat|| mongoose.model<IChat>("Chat",chatSchema) 
 
 export default Chat;
 
