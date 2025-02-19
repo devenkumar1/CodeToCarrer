@@ -1,4 +1,5 @@
 // pages/auth/error.tsx
+"use client";
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 

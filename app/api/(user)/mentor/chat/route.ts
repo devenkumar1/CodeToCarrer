@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
   }
 
   const userId = session.user.id;
-  await connectDb();
+
 
   const currentUser = await User.findById(userId);
   if (!currentUser) {
@@ -84,10 +84,11 @@ export async function GET(req: NextRequest) {
 
   try {
     // Fetch all user chats
+    await connectDb();
     const allChats = await Chat.find({ user: currentUser._id }).populate(
       "messages"
     );
-    console.log("All chats:", allChats);
+    // console.log("All chats:", allChats);
 
     return NextResponse.json(
       { allChats, message: "All chats fetched successfully" },
