@@ -66,29 +66,35 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
           {/*Not logged In */}
          
         </div>
-        {session?(
+        {/* {session?(
           <Link href={"/home"}><IoHome  className='text-4xl mx-2'   /></Link>
         ):(
          <Link href={"/"}><IoHome  className='text-4xl mx-2'   /></Link>
         )
 
-        }
+
+
+        } */}
         
+        <div className='flex flex-row gap-2 justify-center items-center font-bold text-xl'>
+          <img src="" alt="logo" width={70} height={70} />
+          <h1>CodeToCareer</h1>
+        </div>
       </div>
 
 
 
 {session ? (
    <div className="navbar-center hidden lg:flex">
-   <ul className="menu menu-horizontal px-1">
-     <li><a>paths</a></li>
+   <ul className="menu menu-horizontal px-1 text-lg font-bold">
+     <li><a>Paths</a></li>
      <li>
        <details>
          <summary>Learning</summary>
-         <ul className="p-2">
-           <li><Link href={"/AiMentor"}>Mentor</Link></li>
+         <ul className="p-2 w-[17vh]">
+           <li><Link href={"/AiMentor"}>AI Mentor </Link></li>
            <li><Link href={"/test"}>Mentor</Link></li>
-           <li><a>chat</a></li>
+           <li><a>ChatBot</a></li>
          </ul>
        </details>
      </li>
