@@ -19,7 +19,7 @@ const ChatBot = () => {
 
   const fetchAllChats = async () => {
     try {
-      const response = await axios.get("/api/mentor/chat", { withCredentials: true });
+      const response = await axios.get("/api/mentor/chat/allchats", { withCredentials: true });
       console.log("response", response);
       setAllChats(response.data.allChats);
     } catch (error) {
@@ -42,26 +42,14 @@ const ChatBot = () => {
     setMessages(selectedChat?.messages || []);
   };
 
-  // const handleSendMessage = async (e) => {
-  //   e.preventDefault();
-  //   if (!newMessage.trim()) return;
-  //   setNewMessage("");
-  //   try {
-  //     const response = await axios.post("/api/mentor", { message: newMessage, chatId: activeChat._id });
-  //     console.log(response.data);
-  //     // Update messages after sending
-  //     setMessages([...messages, { content: newMessage, senderId: "user", receiverId: "gemini" }]);
-  //   } catch (error) {
-  //     console.log("Error in sending message", error);
-  //   }
-  // };
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
     setNewMessage("");
     try {
-      const response = await axios.post("/api/mentor", { message: newMessage , chatId:"67b5b76c52a6be14d0b3525a" });  
+      const response = await axios.post("/api/mentor", { message: newMessage, chatId: activeChat._id });
       console.log(response.data);
+      // Update messages after sending
       setMessages([...messages, { content: newMessage, senderId: "user", receiverId: "gemini" }]);
     } catch (error) {
       console.log("Error in sending message", error);

@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
 
 **Input:**
 \`\`\`
-code: ${JSON.stringify(code)}
+code: of ${language} given: ${JSON.stringify(code)}
 \`\`\`
 
 The output should be a valid JSON object. Here’s an example format of what the response should look like:
