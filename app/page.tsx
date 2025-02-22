@@ -10,12 +10,19 @@ export default function Home() {
   const { data: session } = useSession();
   const router=useRouter();  
   const [isLoading, setIsLoading] =useState(true);
-useEffect(()=>{
-  if(session){
+// useEffect(()=>{
+//   if(session){
+//     router.push("/home");
+//   }
+//   setIsLoading(false);
+// },[])
+
+useEffect(() => {
+  if (session) {
     router.push("/home");
   }
   setIsLoading(false);
-},[])
+}, [session, router]);
 
 if(isLoading){
   return(
