@@ -5,7 +5,7 @@ import { highlight, languages } from 'prismjs';
 
 export const BasicEditor = ({ value, onChange, language }: { value: string, onChange: (value: string) => void, language: string }) => {
   return (
-    <div className="h-[61vh]   overflow-auto border border-solid border-[#ddd] rounded-lg " >
+    <div className="md:h-[80vh] h-[50vh]  overflow-auto border border-solid border-[#ddd] rounded-lg " >
       <Editor
         value={value}
         onValueChange={onChange}

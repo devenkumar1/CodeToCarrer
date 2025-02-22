@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import CodeReviewResult from '@/components/codeReviewResult'
 import { BasicEditor } from '@/components/BasicEditor'
@@ -8,6 +8,7 @@ function CodeReviewer() {
     const [code, setCode] = useState("");
     const [language, setLanguage] = useState("");
     const [resultData, setResultData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
 
     const handleCodeChange = (newCode: string) => {
         setCode(newCode);
@@ -20,14 +21,25 @@ function CodeReviewer() {
     const handleReview = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            setLoading(true);
             const response = await axios.post('/api/code-reviewer', { language, code });
             console.log("API Response:", response.data);
             setResultData(response.data);
         } catch (error) {
             console.error("Error during code review:", error);
+        }finally{
+            setLoading(false);
         }
     }
-
+    if(loading){
+        return(
+            <div className="min-h-screen w-full flex flex-col justify-center items-center bg-white">
+                <div className="flex flex-col justify-center items-center">
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+                </div>
+            </div>
+        )
+    }
     return (
         <main className='min-h-screen  dark:bg-black  dark:text-white bg-gray-100 text-black  '>
             <h1 className="text-4xl font-semibold pt-6 mb-3 text-blue-700 text-center">Code Reviewer</h1>

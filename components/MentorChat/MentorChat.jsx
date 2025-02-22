@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FiSend, FiSearch, FiPlus, FiMenu } from "react-icons/fi";
 import axios from "axios";
+import {format}  from 'date-fns';
 
 const ChatBot = () => {
   const [allChats, setAllChats] = useState([]);
@@ -30,6 +31,7 @@ const ChatBot = () => {
   const createNewChat = async () => {
     try {
       const response = await axios.post("/api/mentor/chat", { withCredentials: true });
+      fetchAllChats();
       console.log("response", response.data);
     } catch (error) {
       console.log("Error creating new chat", error);
@@ -42,19 +44,43 @@ const ChatBot = () => {
     setMessages(selectedChat?.messages || []);
   };
 
+  console.log("is this id of the selected chat now: ", activeChat);
+
+
+  const UpdateCurrentChat = async () => {
+    try {
+      const response = await axios.post("/api/mentor/chat/allchats/currentChat", { chatId: activeChat._id });
+      console.log("Updated chat:", response.data);
+
+      // Ensure updated messages are set
+      if (response.data && response.data.updatedChatMessages) {
+        setMessages(response.data.updatedChatMessages.messages);
+      }
+    } catch (error) {
+      console.log("Error updating current chat", error);
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
-    setNewMessage("");
+    if (!newMessage.trim()) return; 
+
     try {
       const response = await axios.post("/api/mentor", { message: newMessage, chatId: activeChat._id });
       console.log(response.data);
-      // Update messages after sending
-      setMessages([...messages, { content: newMessage, senderId: "user", receiverId: "gemini" }]);
+
+      // Optimistically update messages (immediate UI update)
+      setMessages((prevMessages) => [...prevMessages, { content: newMessage, senderId: "user", receiverId: "gemini" }]);
+
+      setNewMessage("");
+
+      // Fetch the latest chat messages after sending
+      await UpdateCurrentChat();
     } catch (error) {
       console.log("Error in sending message", error);
     }
   };
+
 
   useEffect(() => {
     if (chatEndRef.current) {
@@ -95,10 +121,10 @@ const ChatBot = () => {
               className={`p-4 cursor-pointer hover:bg-gray-50 ${activeChat?._id === chat._id ? "bg-blue-50" : ""}`}
             >
               <div className="flex justify-between items-start">
-                <h3 className="font-medium text-gray-900 truncate">{chat.name}</h3>
+                <h3 className="font-medium text-gray-900 dark:text-white truncate">{chat.name}</h3>
               </div>
               <p className="text-sm text-gray-500 mt-1">
-                {chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].content : "No messages yet"}
+                {chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].content.slice(0, 30) : "No messages yet"}
               </p>
             </div>
           ))}
@@ -112,23 +138,31 @@ const ChatBot = () => {
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="md:hidden p-2 hover:bg-gray-100 rounded-full">
               <FiMenu className="w-5 h-5 text-gray-600" />
             </button>
-            <h2 className="ml-2 text-xl font-semibold text-gray-800">{activeChat ? activeChat.name : "Select a chat"}</h2>
+            <h2 className="ml-2 text-xl font-semibold dark:text-white text-gray-800">{activeChat ? activeChat.name : "Select a chat"}</h2>
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
-          {messages.map((message, index) => (
-            <div key={index} className={`flex ${message.senderId === "67b053d95bd068c950f20fb3" ? "justify-end" : "justify-start"} mb-4`}>
-              <div
-                className={`max-w-[70%] p-3 rounded-lg ${message.senderId === "67b053d95bd068c950f20fb3" ? "bg-blue-500 text-white" : "bg-[#1f2937] text-white"} shadow-sm`}
-              >
-                <p className="text-sm">{message.content}</p>
-                <p className="text-xs mt-1 opacity-70">{"HH:mm"}</p>
-              </div>
-            </div>
-          ))}
+        {messages.map((message, index) => (
+  <div key={index} className={`flex ${message.senderId === "user" ? "justify-end" : "justify-start"} mb-4`}>
+    <div
+      className={`max-w-[70%] p-3 rounded-lg ${
+        message.receiverId === "gemini" ? "bg-blue-500 text-white" : "bg-gray-700 text-white"
+      } shadow-sm`}
+    >
+      <p className="text-sm">{message.content}</p>
+
+      {/* Properly format the timestamp
+<p className="text-xs mt-1 opacity-70">
+  {message.createdAt ? format(new Date(message.createdAt * 1000), "dd MMM yyyy, hh:mm a") : "Invalid date"}
+</p> */}
+
+    </div>
+  </div>
+))}
           <div ref={chatEndRef} />
         </div>
+
 
         <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-200 bg-white">
           <div className="flex items-center space-x-2">

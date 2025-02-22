@@ -66,20 +66,15 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
           {/*Not logged In */}
          
         </div>
-        {/* {session?(
-          <Link href={"/home"}><IoHome  className='text-4xl mx-2'   /></Link>
+        {session?(
+          //icon will come here
+          <Link href={"/home"}><h1>CodeToCareer</h1></Link>
         ):(
-         <Link href={"/"}><IoHome  className='text-4xl mx-2'   /></Link>
+          //icon will come here
+         <Link href={"/"}><h1>CodeToCareer</h1></Link>
         )
 
-
-
-        } */}
-        
-        <div className='flex flex-row gap-2 justify-center items-center font-bold text-xl'>
-          <img src="" alt="logo" width={70} height={70} />
-          <h1>CodeToCareer</h1>
-        </div>
+        }
       </div>
 
 

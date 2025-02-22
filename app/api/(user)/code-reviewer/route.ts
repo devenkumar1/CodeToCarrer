@@ -54,7 +54,7 @@ The output should be a valid JSON object. Here’s an example format of what the
     
     // Log the raw response to check if it's valid JSON
     const responseText = result.response.text();
-    console.log("Raw response from the model:", responseText);
+    // console.log("Raw response from the model:", responseText);
     
     // Strip the Markdown code block markers (i.e., ```json and ```)
     const jsonResponseText = responseText.replace(/```json|```/g, '').trim();
