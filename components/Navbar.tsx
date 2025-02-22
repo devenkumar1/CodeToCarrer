@@ -82,14 +82,13 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
 {session ? (
    <div className="navbar-center hidden lg:flex">
    <ul className="menu menu-horizontal px-1 text-lg font-bold">
-     <li><a>Paths</a></li>
+     <li><Link href={"/learning-path"}>Learning paths </Link></li>
      <li>
        <details>
          <summary>Learning</summary>
-         <ul className="p-2 w-[17vh]">
+         <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
            <li><Link href={"/AiMentor"}>AI Mentor </Link></li>
-           <li><Link href={"/test"}>Mentor</Link></li>
-           <li><a>ChatBot</a></li>
+           <li><Link href={"/test"}>Test</Link></li>
          </ul>
        </details>
      </li>
