@@ -39,7 +39,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
             </svg>
           </div>
 
-          {/*Logged in */}
+          {/*Logged in   (mobile) */}
           {
             session?  <ul
             tabIndex={0}
@@ -53,7 +53,13 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
                 <li><Link href={"/code-reviewer"}>code editor</Link></li>
               </ul>
             </li>
-            <li><Link href={"/learning-path"}>Learning paths</Link></li>
+            <li><Link href={"/learning-path"}>Learning paths</Link></li> 
+            <br />
+            <p>more...</p>
+              <ul className="p-2">
+              <li><Link href={"/technews"}>Tech News </Link></li>
+              <li><Link href={"/learners-community"}>learners community</Link></li>
+              </ul>
           </ul>: <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
@@ -92,7 +98,17 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
          </ul>
        </details>
      </li>
+
      <li><Link href={"/code-reviewer"}>Code Editor</Link></li>
+     <li>
+       <details>
+         <summary>More</summary>
+         <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
+           <li><Link href={"/technews"}>Tech News </Link></li>
+           <li><Link href={"/learners-community"}>learners community</Link></li>
+         </ul>
+       </details>
+     </li>
    </ul>
  </div>
 ):(
