@@ -1,8 +1,15 @@
 import React from 'react'
-
+import LearningMethod from '@/components/LearningMethod/LearningMethod'
 function LearningPath() {
   return (
-    <div className='min-h-screen dark:bg-black bg-white flex flex-col justify-center items-center'>LearningPath</div>
+
+   <div>
+     <LearningMethod/>
+   </div>
+
+
+    
+
   )
 }
 

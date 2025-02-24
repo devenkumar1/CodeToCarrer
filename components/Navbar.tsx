@@ -39,7 +39,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
             </svg>
           </div>
 
-          {/*Logged in */}
+          {/*Logged in   (mobile) */}
           {
             session?  <ul
             tabIndex={0}
@@ -53,7 +53,13 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
                 <li><Link href={"/code-reviewer"}>code editor</Link></li>
               </ul>
             </li>
-            <li><Link href={"/learning-path"}>Learning paths</Link></li>
+            <li><Link href={"/learning-path"}>Learning paths</Link></li> 
+            <br />
+            <p>more...</p>
+              <ul className="p-2">
+              <li><Link href={"/technews"}>Tech News </Link></li>
+              <li><Link href={"/learners-community"}>learners community</Link></li>
+              </ul>
           </ul>: <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
@@ -66,20 +72,15 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
           {/*Not logged In */}
          
         </div>
-        {/* {session?(
-          <Link href={"/home"}><IoHome  className='text-4xl mx-2'   /></Link>
+        {session?(
+          //icon will come here
+          <Link href={"/home"}><h1>CodeToCareer</h1></Link>
         ):(
-         <Link href={"/"}><IoHome  className='text-4xl mx-2'   /></Link>
+          //icon will come here
+         <Link href={"/"}><h1>CodeToCareer</h1></Link>
         )
 
-
-
-        } */}
-        
-        <div className='flex flex-row gap-2 justify-center items-center font-bold text-xl'>
-          <img src="" alt="logo" width={70} height={70} />
-          <h1>CodeToCareer</h1>
-        </div>
+        }
       </div>
 
 
@@ -87,18 +88,27 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
 {session ? (
    <div className="navbar-center hidden lg:flex">
    <ul className="menu menu-horizontal px-1 text-lg font-bold">
-     <li><a>Paths</a></li>
+     <li><Link href={"/learning-path"}>Learning paths </Link></li>
      <li>
        <details>
          <summary>Learning</summary>
-         <ul className="p-2 w-[17vh]">
+         <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
            <li><Link href={"/AiMentor"}>AI Mentor </Link></li>
-           <li><Link href={"/test"}>Mentor</Link></li>
-           <li><a>ChatBot</a></li>
+           <li><Link href={"/test"}>Test</Link></li>
          </ul>
        </details>
      </li>
+
      <li><Link href={"/code-reviewer"}>Code Editor</Link></li>
+     <li>
+       <details>
+         <summary>More</summary>
+         <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
+           <li><Link href={"/technews"}>Tech News </Link></li>
+           <li><Link href={"/learners-community"}>learners community</Link></li>
+         </ul>
+       </details>
+     </li>
    </ul>
  </div>
 ):(

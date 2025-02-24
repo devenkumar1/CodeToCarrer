@@ -4,8 +4,8 @@ import User from "@/models/user.model";
 import Chat from "@/models/chat.model";
 import Message from "@/models/message.model";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { geminiMentorPrompt } from '@/lib/geminiMentorPrompt';
 import { CustomSession } from "./chat/route";
+import { geminiMentorPrompt } from '@/lib/geminiMentorPrompt';
 import authOptions from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Fetch current chat
-    const currentChat = await Chat.findById(chatId);
+    const currentChat = await Chat.findById(chatId).populate('messages');  // Populate messages
     if (!currentChat) {
       return NextResponse.json({ message: "Invalid chatId" }, { status: 400 });
     }
@@ -51,55 +51,51 @@ export async function POST(req: NextRequest) {
     console.log("Message saved in the chat.");
 
     // Fetch updated chat and messages
-    const updatedChat = await Chat.findById(chatId);
+    const updatedChat = await Chat.findById(chatId).populate('messages');
     const messagesArray = updatedChat?.messages;
 
+    // Extract the text content of each message for the prompt
+    const chatHistory = messagesArray?.slice().map((msg: any) => 
+      `${msg.senderId === currentUser._id  ? 'User' : 'AI'}: ${msg.content}`).join('\n') || '';
+    console.log("this chats messages history is",chatHistory);
+      const latestMessage=message;
+      console.log("is this latest message",latestMessage);
     // Generate AI response using Gemini API
     const apiKey = process.env.GEMINI_API_KEY!;
     const genAI = new GoogleGenerativeAI(apiKey);
-    const prompt = geminiMentorPrompt(messagesArray!);
+    const prompt = geminiMentorPrompt(chatHistory,latestMessage);  
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-    const result = await model.generateContent(prompt);
-
-    // Get the raw response and clean it
-    const responseText = result.response.text();
-    console.log("Raw response from the model:", responseText);
-
-    // Check if the response is an error message from the model (non-JSON)
-    if (responseText && !responseText.trim().startsWith('{')) {
-      console.log("Non-JSON response received:", responseText);
-      // Return a meaningful error to the user
-      return NextResponse.json({ error: "The response from the model is not in the expected format." }, { status: 400 });
-    }
-
-    // Try parsing the cleaned response text to ensure valid JSON
-    let parsedResult;
     try {
-      parsedResult = JSON.parse(responseText.trim());
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return NextResponse.json({ error: "The response from the model was not valid JSON." }, { status: 500 });
-    }
-
-    // Extract the final response content from parsed result
-    const geminiReply = parsedResult?.response || "Sorry, I couldn't understand that.";
-
-    // Save the Gemini response as a new message
-    const newMessage2 = await Message.create({
-      content: geminiReply, 
-      receiverId: currentUser._id,
-      chatId: currentChat._id,
-    });
-    newMessage2.save();
-    currentChat.messages.push(newMessage2._id);
-    await currentChat.save();
-    console.log("Gemini response saved in the chat.");
-
-    // Respond to the client
-    return NextResponse.json({ message: "Message received by mentor" }, { status: 200 });
-
+      const result = await model.generateContent(prompt);
+  
+      // Get response safely
+      const responseText = result?.response?.text?.() || "";
+      console.log("Raw response from the model:", responseText);
+  
+      // No need to parse if it's not JSON
+      const geminiReply = responseText.trim() || "Sorry, I couldn't understand that.";
+  
+      // Save the Gemini response as a new message
+      const newMessage2 = await Message.create({
+          content: geminiReply,
+          receiverId: currentUser._id,
+          chatId: currentChat._id,
+      });
+  
+      newMessage2.save();
+      currentChat.messages.push(newMessage2._id);
+      await currentChat.save();
+      console.log("Gemini response saved in the chat.");
+  
+      return NextResponse.json({ message: "Message received by mentor" }, { status: 200 });
+  
   } catch (error) {
-    console.log("Error occurred in mentor route:", error);
-    return NextResponse.json({ error: "Couldn't send message" }, { status: 500 });
+      console.error("Error processing Gemini response:", error);
+      return NextResponse.json({ error: "Failed to get a valid response from Gemini." }, { status: 500 });
+  }
+
+  
+  }catch(error){
+  console.log(error)
   }
 }

@@ -26,7 +26,7 @@ const chatSchema: mongoose.Schema<IChat> = new mongoose.Schema({
 
 },{timestamps:true})
 
-const Chat =  mongoose.models.Chat|| mongoose.model<IChat>("Chat",chatSchema) 
+const Chat = mongoose.models.Chat || mongoose.model<IChat>("Chat",chatSchema) 
 
 export default Chat;
 

@@ -12,13 +12,13 @@ const LearningMethod = () => {
     if (formStatus < 4) setFormStatus(formStatus + 1);
   };
 
-  const handlePreferences = (e) => {
+  const handlePreferences = (e: any) => {
     e.preventDefault();
     console.log("Preferences submitted!");
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-800">
       {/* Learning Preference Modal */}
       {formStatus === 1 && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">

@@ -1,9 +1,9 @@
 import React from 'react'
 
-function CodePractice() {
+function Practice() {
   return (
     <div>CodePractice</div>
   )
 }
 
-export default CodePractice
+export default Practice
