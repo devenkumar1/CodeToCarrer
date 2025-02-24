@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import Roadmap from "./roadmap.model";
 
 // Define the IUser interface
 export interface IUser {
@@ -13,6 +13,7 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
   AiMentorChats?:mongoose.Types.ObjectId[];
+  roadmaps?:mongoose.Types.ObjectId[]
 }
 
 // Define the user schema
@@ -49,13 +50,18 @@ const userSchema = new mongoose.Schema<IUser>(
         type:mongoose.Schema.Types.ObjectId,
         ref:"Chat"
        }
-    ]
+    ],
+    roadmaps:[
+      {
+       type:mongoose.Schema.Types.ObjectId,
+       ref:"Roadmap"
+      }
+  ]
   },
   {
     timestamps: true,
   }
 );
-
 
 // Export the model
 export const User = mongoose.models?.User || mongoose.model<IUser>("User", userSchema);

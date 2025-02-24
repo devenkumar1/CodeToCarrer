@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FiSend, FiSearch, FiPlus, FiMenu } from "react-icons/fi";
 import axios from "axios";
 import {format}  from 'date-fns';
+import LoadingSkeleton from "../Skeleton/LoadingSkeleton";
 
 const ChatBot = () => {
   const [allChats, setAllChats] = useState([]);

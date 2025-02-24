@@ -49,8 +49,9 @@ try {
                 steps:RoadmapSteps,
                 resources:Roadmapresources
             });
-           console.log("new roadmap created suceessfully",newRoadmap);
-
+              currentUser.roadmaps.push(newRoadmap._id);
+              await currentUser.save();
+           console.log("new roadmap created suceessfully and added to user",newRoadmap);
          } catch (error) {
             console.log(error);
          }
