@@ -38,15 +38,15 @@ function CodeReviewer() {
             setLoading(false);
         }
     }
-    if (loading) {
-        return (
-            <div className="min-h-screen w-full flex flex-col justify-center items-center bg-white dark:bg-black">
-                <div className="flex flex-col justify-center items-center">
-                    <LoadingSkeleton />
-                </div>
-            </div>
-        )
+   
+    if(loading){
+      return(
+        <div className="min-h-screen w-full flex flex-col justify-center items-center ">
+       <LoadingSkeleton/>
+          </div>
+      )
     }
+  
     return (
         <main className='min-h-screen  dark:bg-black  dark:text-white bg-gray-100 text-black  '>
             <div className="flex items-center justify-center gap-3 text-center ">

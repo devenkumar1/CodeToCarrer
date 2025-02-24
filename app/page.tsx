@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { TextParallaxContents } from "@/components/FeatureSection/TextParallaxContent";
 import { BentoGridThird } from "@/components/BentoGrid/BentoGridThird";
 import { useEffect, useState } from "react";
+import LoadingSkeleton from "@/components/Skeleton/LoadingSkeleton";
 export default function Home() {
   const { data: session } = useSession();
   const router=useRouter();  
@@ -26,11 +27,9 @@ useEffect(() => {
 
 if(isLoading){
   return(
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-white">
-      <div className="flex flex-col justify-center items-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+    <div className="min-h-screen w-full flex flex-col justify-center items-center ">
+   <LoadingSkeleton/>
       </div>
-    </div>
   )
 }
 

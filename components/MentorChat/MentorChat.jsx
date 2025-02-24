@@ -20,11 +20,14 @@ const ChatBot = () => {
 
   const fetchAllChats = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get("/api/mentor/chat/allchats", { withCredentials: true });
       console.log("response", response);
       setAllChats(response.data.allChats);
     } catch (error) {
       console.log("Error fetching all chats", error);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -87,6 +90,14 @@ const ChatBot = () => {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  if(isLoading){
+    return(
+      <div className="min-h-screen w-full flex flex-col justify-center items-center ">
+     <LoadingSkeleton/>
+        </div>
+    )
+  }
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-gray-900">

@@ -43,7 +43,7 @@ const getAllNews=async()=>{
 
 if(loading){
   return(
-    <div>
+    <div className="min-h-screen w-full flex flex-col justify-center items-center ">
       <LoadingSkeleton/>
     </div>
   )

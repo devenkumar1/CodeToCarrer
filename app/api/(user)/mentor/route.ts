@@ -4,8 +4,8 @@ import User from "@/models/user.model";
 import Chat from "@/models/chat.model";
 import Message from "@/models/message.model";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { CustomSession } from "./chat/route";
 import { geminiMentorPrompt } from '@/lib/geminiMentorPrompt';
+import { CustomSession } from "./chat/route";
 import authOptions from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
   
       // Get response safely
       const responseText = result?.response?.text?.() || "";
-      console.log("Raw response from the model:", responseText);
+      // console.log("Raw response from the model:", responseText);
   
       // No need to parse if it's not JSON
       const geminiReply = responseText.trim() || "Sorry, I couldn't understand that.";
