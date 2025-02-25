@@ -6,8 +6,10 @@ import { useNotification } from "@/components/Notification";
 import Link from "next/link";
 import Image from "next/image";
 import LoadingSkeleton from "@/components/Skeleton/LoadingSkeleton";
+import { useUserStore } from "@/store/userStore";
 
 export default function Login() {
+  const {userData,setUserData}=useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { data: session } = useSession(); // Check if user is authenticated
@@ -34,6 +36,7 @@ export default function Login() {
       showNotification(result.error, "error");
     } else {
       showNotification("Login successful!", "success");
+      setUserData();
       router.push("/");
     }
   };
