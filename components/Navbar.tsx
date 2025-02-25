@@ -117,6 +117,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
          <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
            <li><Link href={"/technews"}>Tech News </Link></li>
            <li><Link href={"/learners-community"}>learners community</Link></li>
+           <li><Link href={"/profile"}>profile</Link></li>
          </ul>
        </details>
      </li>
