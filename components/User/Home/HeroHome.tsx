@@ -2,10 +2,15 @@
 import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/userStore";
+import { useEffect, useState } from "react";
 
 
 export function HeroHome() {
-    const router=useRouter();
+  const router=useRouter();
+  const {userData}=useUserStore();
+  const totalRoadmpas=userData?.roadmaps?.length;
+
   return (
     <HeroHighlight>
       <motion.h1
@@ -29,7 +34,7 @@ export function HeroHome() {
           Top 1%, coder.
         </Highlight>
         <br />
-        <button className="bg-indigo-500 text-white font-medium px-1 md:py-2 md:px-4 rounded transition-all hover:bg-indigo-600 active:scale-95 mt-2" onClick={()=>router.push('/learning-path')}>Get your Path</button>
+        <button className="bg-indigo-500 text-white font-medium px-1 md:py-2 md:px-4 rounded transition-all hover:bg-indigo-600 active:scale-95 mt-2" onClick={totalRoadmpas==0?()=>router.push('/learning-path'):()=>router.push('/roadmaps')}>Get your Path</button>
       </motion.h1>
     </HeroHighlight>
   );

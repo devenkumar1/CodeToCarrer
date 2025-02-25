@@ -1,8 +1,13 @@
 "use client";
+import { useUserStore } from "@/store/userStore";
 import axios from "axios";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const LearningMethod = () => {
+  const {userData}=useUserStore();
+  const TotalRoadmaps=userData?.roadmaps?.length;
   const [formStatus, setFormStatus] = useState(0);
   const [selectedSkill, setSelectedSkill] = useState("");
   const [selectedExperience, setSelectedExperience] = useState("");
@@ -11,6 +16,15 @@ const LearningMethod = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [customSkill, setCustomSkill] = useState("");
+  const router=useRouter();
+
+useEffect(()=>{
+if(TotalRoadmaps>=3){
+  toast.error("max roadmaps limit exceeded");
+  router.push('/roadmaps');
+}
+},[])
+
 
   const handleNextStep = () => {
     setError("");
@@ -54,7 +68,8 @@ const LearningMethod = () => {
       });
 
       const respData = response.data;
-      console.log(respData);
+      toast.success("roadmap created successfully");
+      router.push('/roadmaps');
     } catch (error) {
       console.log("error in submitting learning methods", error);
     }

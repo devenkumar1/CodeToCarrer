@@ -7,7 +7,7 @@ import LoadingSkeleton from "../Skeleton/LoadingSkeleton";
 const ChatBot = () => {
   const [allChats, setAllChats] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeChat, setActiveChat] = useState(null);  // Update to null for no initial active chat
+  const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);

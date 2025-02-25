@@ -3,6 +3,8 @@ import React from 'react';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/store/userStore';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { IoHome } from "react-icons/io5";
 interface NavbarProps {
@@ -17,6 +19,15 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
   const handleThemeToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+    const {userData,setUserData,logoutUser}=useUserStore();
+  useEffect(()=>{
+  try {
+    setUserData();
+  } catch (error) {
+    
+  }
+  },[])
 
   return (
     <div className="navbar  dark:text-white text-black">

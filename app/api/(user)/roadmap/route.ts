@@ -51,7 +51,7 @@ try {
             });
               currentUser.roadmaps.push(newRoadmap._id);
               await currentUser.save();
-           console.log("new roadmap created suceessfully and added to user",newRoadmap);
+        //    console.log("new roadmap created suceessfully and added to user",newRoadmap);
          } catch (error) {
             console.log(error);
          }
@@ -59,7 +59,7 @@ try {
             console.log("couldn't get  response from the gemini ");
         }
 
-   return NextResponse.json({message:"your request has been recieved"},{status:200});
+   return NextResponse.json({message:"Roadmap created succesfullly"},{status:200});
 } catch (error) {
     console.log(error);
    return NextResponse.json({message:"error occured in Roadmap generation"},{status:500});
