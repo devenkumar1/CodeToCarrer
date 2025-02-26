@@ -5,11 +5,17 @@ import axios from 'axios';
 import { useUserStore } from '@/store/userStore';
 
 function EditProfile({ params }: { params: { id: string } }) {
-  const { userData } = useUserStore();
-  const [userinfo, setUserInfo] = useState<any>(null);
   const [loading, setLoading] = useState(false); 
+  useEffect(()=>{
+    setLoading(true);
+    setUserData();
+    setLoading(false);
+  },[params])
+  const { userData,setUserData } = useUserStore();
 
-  const userId=params.id;
+  const handleUpdateProfile=async()=>{
+    //todo
+  }
 
 
   if (loading) {
@@ -18,7 +24,7 @@ function EditProfile({ params }: { params: { id: string } }) {
 
   return (
 <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-10 px-4">
-  <h1 className="text-3xl font-bold mb-8 text-center">Edit Profile:{userId}</h1>
+  <h1 className="text-3xl font-bold mb-8 text-center">Edit Profile</h1>
   <form className="w-full max-w-lg mx-auto flex flex-col gap-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
     <div className="space-y-4">
       <div>

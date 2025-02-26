@@ -25,7 +25,7 @@
     },
     "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/auth/[...nextauth]/route.js", "store/userStore.ts", "app/api/auth/login/route.ts", "lib/auth.js", "components/EncrytButton.jsx", "components/FeatureSection/TextParallaxContent.jsx", "components/User/Home/SmoothScrollHero.jsx", "lib/gemini/gemini.js", "components/MentorChat/MentorChat.jsx", "lib/geminiMentorPrompt.ts", "app/api/(user)/mentor/chat/allchats/route.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/auth/[...nextauth]/route.js", "store/userStore.ts", "app/api/auth/login/route.ts", "lib/auth.js", "components/EncrytButton.jsx", "components/FeatureSection/TextParallaxContent.jsx", "components/User/Home/SmoothScrollHero.jsx", "lib/gemini/gemini.js", "components/MentorChat/MentorChat.jsx", "lib/geminiMentorPrompt.ts", "app/api/(user)/mentor/chat/allchats/route.ts", "components/UserProfile/UserProfile.jsx"],
 
   "exclude": ["node_modules", ".next", "build"]
 }
