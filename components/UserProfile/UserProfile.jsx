@@ -1,9 +1,16 @@
 "use client";
 import { FiEdit2, FiCamera, FiLogOut } from "react-icons/fi";
 import { useUserStore } from "@/store/userStore";
+import { useRouter } from "next/navigation";
 
 export const UserProfile = () => {
   const { userData, logoutUser } = useUserStore();
+const router=useRouter();
+const handleEditProfile=async()=>{
+router.push(`/profile/${userData._id}`)
+console.log("redirected success");
+}
+
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-6">
@@ -23,7 +30,7 @@ export const UserProfile = () => {
           {userData?.role}
         </span>
         <div className="mt-4 flex justify-center gap-4">
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2" onClick={handleEditProfile}>
             <FiEdit2 /> Edit Profile
           </button>
           <button 

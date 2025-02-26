@@ -3,7 +3,9 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import { CustomSession } from "../(user)/mentor/chat/route";
 import { User } from "@/models";
-import { connectDb } from "@/config/db.config"; 
+import { connectDb } from "@/config/db.config";
+
+
 export async function POST(req:NextRequest){
 const session = await getServerSession(authOptions as any) as CustomSession;
 if(!session){
