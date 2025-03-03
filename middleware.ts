@@ -14,7 +14,8 @@ export default withAuth(
         if (
           pathname.startsWith("/api/auth") ||
           pathname === "/auth/login" ||
-          pathname === "/auth/signup"
+          pathname === "/auth/signup" ||
+          pathname === "/api/news/latest"
         ) {
           return true;
         }

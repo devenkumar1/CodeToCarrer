@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 interface Inews{
     _id?: mongoose.Types.ObjectId;
-    author:string;
+    author:string | null;
     title:string;
     description:string | undefined;
     url:string | undefined;
@@ -14,7 +14,7 @@ interface Inews{
 const NewsSchema: mongoose.Schema<Inews>= new mongoose.Schema({
     author:{
         type:String,
-        required:true
+        
     },
     title:{
         type:String,
