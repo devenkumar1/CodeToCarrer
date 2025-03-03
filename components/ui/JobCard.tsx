@@ -1,6 +1,16 @@
 import React from "react";
 
-const JobCard = ({ jobTitle, company, logo, location, description, postedDate, applyLink }) => {
+interface JobCardProps {
+  jobTitle: string;
+  company: string;
+  logo?: string;
+  location: string;
+  description: string;
+  postedDate: string;
+  applyLink: string;
+}
+
+const JobCard: React.FC<JobCardProps> = ({ jobTitle, company, logo, location, description, postedDate, applyLink }) => {
   return (
     <div className="p-5 w-80 my-5 min-h-[370px] rounded-2xl bg-gray-200 shadow-lg dark:bg-gray-800 dark:shadow-md transition-all duration-300">
       <div className="h-40 bg-gray-300 rounded-lg shadow-inner flex justify-center items-center dark:bg-gray-700">
