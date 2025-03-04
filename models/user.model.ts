@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose,{Schema} from "mongoose";
 import Roadmap from "./roadmap.model";
 
 // Define the IUser interface
@@ -13,7 +13,10 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
   AiMentorChats?:mongoose.Types.ObjectId[];
-  roadmaps?:mongoose.Types.ObjectId[]
+  roadmaps?:mongoose.Types.ObjectId[],
+  questionsAsked?:mongoose.Types.ObjectId[],
+  answersGiven?:mongoose.Types.ObjectId[],
+
 }
 
 // Define the user schema
@@ -56,7 +59,15 @@ const userSchema = new mongoose.Schema<IUser>(
        type:mongoose.Schema.Types.ObjectId,
        ref:"Roadmap"
       }
-  ]
+  ],
+  questionsAsked: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Post' // Questions the user has asked
+  }],
+  answersGiven: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Answer' // Answers the user has provided
+  }],
   },
   {
     timestamps: true,
