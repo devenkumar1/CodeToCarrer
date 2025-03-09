@@ -35,10 +35,25 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname : "unsplash.com"
+        hostname: "unsplash.com"
       }
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Service-Worker-Allowed",
+            value: "/",
+          },
+        ],
+      },
+    ];
+  },
+
+  reactStrictMode: true,
 };
 
 export default nextConfig;

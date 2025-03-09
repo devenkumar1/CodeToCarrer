@@ -11,6 +11,9 @@ const urlsToCache = [
   '/icons/icon-384x384.png'
 ];
 
+// Dynamic cache for runtime assets
+const RUNTIME_CACHE = 'runtime-cache-v1';
+
 // Install event - cache assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -25,7 +28,7 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
+  const cacheWhitelist = [CACHE_NAME, RUNTIME_CACHE];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -40,6 +43,27 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Helper function to determine if a resource should be cached
+function shouldCache(url) {
+  // Cache CSS, JS, HTML, images, and fonts
+  return (
+    url.includes('/static/') ||
+    url.includes('/_next/') ||
+    url.endsWith('.css') ||
+    url.endsWith('.js') ||
+    url.endsWith('.html') ||
+    url.endsWith('.png') ||
+    url.endsWith('.jpg') ||
+    url.endsWith('.jpeg') ||
+    url.endsWith('.gif') ||
+    url.endsWith('.woff2') ||
+    url.endsWith('.woff') ||
+    url.endsWith('.ttf') ||
+    url === '/' ||
+    url === '/offline'
+  );
+}
+
 // Fetch event - serve from cache or network
 self.addEventListener('fetch', (event) => {
   // Skip cross-origin requests
@@ -47,46 +71,67 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest)
-          .then((response) => {
-            // Check if valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response
-            const responseToCache = response.clone();
-
-            // Cache the fetched response
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          })
-          .catch(() => {
-            // If fetch fails, show offline page for navigation requests
-            if (event.request.mode === 'navigate') {
-              return caches.match('/offline');
-            }
-            
-            return new Response('Network error happened', {
-              status: 408,
-              headers: { 'Content-Type': 'text/plain' },
+  // Handle navigation requests differently
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match('/offline')
+            .then(response => {
+              return response || caches.match('/');
             });
-          });
-      })
-  );
+        })
+    );
+    return;
+  }
+
+  // Cache-first strategy for static assets
+  if (shouldCache(event.request.url)) {
+    event.respondWith(
+      caches.match(event.request)
+        .then((response) => {
+          // Cache hit - return response
+          if (response) {
+            return response;
+          }
+
+          // Clone the request
+          const fetchRequest = event.request.clone();
+
+          return fetch(fetchRequest)
+            .then((response) => {
+              // Check if valid response
+              if (!response || response.status !== 200 || response.type !== 'basic') {
+                return response;
+              }
+
+              // Clone the response
+              const responseToCache = response.clone();
+
+              // Cache the fetched response
+              caches.open(RUNTIME_CACHE)
+                .then((cache) => {
+                  cache.put(event.request, responseToCache);
+                });
+
+              return response;
+            })
+            .catch(() => {
+              // For non-navigation requests, return a network error
+              return new Response('Network error happened', {
+                status: 408,
+                headers: { 'Content-Type': 'text/plain' },
+              });
+            });
+        })
+    );
+  } else {
+    // Network-first strategy for dynamic content
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+  }
 }); 
