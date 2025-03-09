@@ -1,14 +1,15 @@
 'use client'
-import React, { FormEvent, FormEventHandler, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useUserStore } from '@/store/userStore';
 import CommunityPost from '@/components/CommunityPost';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 function LearnersCommunity() {
   const { userData } = useUserStore();
   const [isVisible, setIsVisible] = useState(false); // State to control popup visibility
-  const [formData, setFormData] = useState({ title: '', description: '', tags: '' });
+  const [formData, setFormData] = useState({ title: '', description: '', tags: [] as string[] });
 
-  // Function to toggle the visibility of the form
   const handlePopup = () => {
     setIsVisible(!isVisible);
   };
@@ -23,10 +24,35 @@ function LearnersCommunity() {
   };
 
   // Function to handle form submission
-  const handlePostSubmit = (e:FormEvent) => {
+  const handlePostSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(formData);  // Here you can replace this with your post submission logic
-    setIsVisible(false);  // Close the form after submitting
+    try {
+      // Add the userId to the formData
+      const postData = { ...formData, userId: userData?._id };
+      
+      setIsVisible(false); // Close the form
+
+      // Make the POST request to the backend
+      const response = await axios.post("/api/community/post", postData);
+
+      // Handle successful response
+      console.log(response.data);
+      toast.success("Post created successfully!");
+    } catch (error) {
+      // Handle error response
+      console.error(error);
+      toast.error("Error: Post not created.");
+      setIsVisible(false); // Close the form on error
+    }
+  };
+
+  // Function to handle tags input change
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tags = e.target.value.split(',').map(tag => tag.trim());
+    setFormData(prev => ({
+      ...prev,
+      tags
+    }));
   };
 
   return (
@@ -66,13 +92,13 @@ function LearnersCommunity() {
           type="text" 
           name="tags" 
           placeholder="Tags (comma-separated)"
-          value={formData.tags}
-          onChange={handleInputChange}
+          value={formData.tags.join(',')}
+          onChange={handleTagsChange}
           className="mt-2 p-3 rounded-md w-1/2 h-14"
         />
         <button 
           type="submit" 
-          className="bg-blue-600  px-5 py-2 mt-2 rounded-md max-w-[10vw]"
+          className="bg-blue-600 px-5 py-2 mt-2 rounded-md max-w-[10vw]"
         >
           Post
         </button>
@@ -84,4 +110,3 @@ function LearnersCommunity() {
 }
 
 export default LearnersCommunity;
-

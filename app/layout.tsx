@@ -8,6 +8,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { useUserStore } from "@/store/userStore";
+import { registerServiceWorker } from "./sw-register";
+import dynamic from "next/dynamic";
+
+// Dynamically import the PWA install prompt component to avoid SSR issues
+const PwaInstallPrompt = dynamic(
+  () => import("./components/PwaInstallPrompt"),
+  { ssr: false }
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,8 +32,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-
   useEffect(() => {
+    // Register service worker
+    registerServiceWorker();
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log('PWA features are disabled in development mode. They will be available in production.');
+    }
+    
     // Check localStorage for saved theme preference
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -60,6 +74,7 @@ export default function RootLayout({
           <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
           {children}
           <Footer/>
+          <PwaInstallPrompt />
         </Providers>
       </body>
     </html>

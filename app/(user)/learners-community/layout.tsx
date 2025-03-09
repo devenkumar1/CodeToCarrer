@@ -23,7 +23,7 @@ export default function LearnerCommunityLayout({
          {/* main container */}   
         {children} 
         </div>
-        <div className="w-[20vw] min-h-screen bg-blue-600/10 ">
+        <div className="w-[20vw] min-h-screen bg-blue-600/10 text-center pt-5 ">
          {/*Right container */}   
          <h2>other info section</h2>
         </div>
