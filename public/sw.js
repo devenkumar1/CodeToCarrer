@@ -6,9 +6,14 @@ const urlsToCache = [
   '/',
   '/offline',
   '/manifest.json',
+  '/site.webmanifest',
   '/icons/icon-72x72.png',
+  '/icons/icon-96x96.png',
+  '/icons/icon-144x144.png',
   '/icons/icon-152x152.png',
-  '/icons/icon-384x384.png'
+  '/icons/icon-192x192.png',
+  '/icons/icon-384x384.png',
+  '/icons/icon-512x512.png'
 ];
 
 // Dynamic cache for runtime assets
@@ -49,6 +54,7 @@ function shouldCache(url) {
   return (
     url.includes('/static/') ||
     url.includes('/_next/') ||
+    url.includes('/icons/') ||  // Explicitly include all icon files
     url.endsWith('.css') ||
     url.endsWith('.js') ||
     url.endsWith('.html') ||
@@ -59,6 +65,8 @@ function shouldCache(url) {
     url.endsWith('.woff2') ||
     url.endsWith('.woff') ||
     url.endsWith('.ttf') ||
+    url.endsWith('/manifest.json') ||
+    url.endsWith('/site.webmanifest') ||
     url === '/' ||
     url === '/offline'
   );

@@ -42,11 +42,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: '/site.webmanifest',
         headers: [
           {
-            key: "Service-Worker-Allowed",
-            value: "/",
+            key: 'Content-Type',
+            value: 'application/manifest+json',
           },
         ],
       },
