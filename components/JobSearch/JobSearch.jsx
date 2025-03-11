@@ -22,12 +22,11 @@ const JobSearch = () => {
 
   const fetchJobs = async () => {
     const keyword = form.keyword.replace(" ", "%20");
-    console.log("Key word is after replacing ", keyword);
     const url = `https://linkedin-job-search-api.p.rapidapi.com/active-jb-24h?title_filter=${keyword}&location_filter=${form.location}&type_filter=FULL_TIME`;
     const options = {
       method: "GET",
       headers: {
-        "x-rapidapi-key": "e51091b92emsh8a0e62758c577fdp1acd29jsnf9c2f31a8603",
+        "x-rapidapi-key": process.env.RAPID_API_JOBS,
         "x-rapidapi-host": "linkedin-job-search-api.p.rapidapi.com",
       },
     };
