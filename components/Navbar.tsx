@@ -7,6 +7,8 @@ import { useUserStore } from '@/store/userStore';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { IoHome } from "react-icons/io5";
+import Image from 'next/legacy/image';
+
 interface NavbarProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,6 +67,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
               </ul>
             </li>
             <li><Link href={"/learning-path"}>Learning paths</Link></li> 
+            <li><Link href={"/jobs"}>Jobs</Link></li>
             <br />
             <p>more...</p>
               <ul className="p-2">
@@ -83,15 +86,15 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
           {/*Not logged In */}
          
         </div>
-        {session?(
-          //icon will come here
-          <Link href={"/home"}><h1>CodeToCareer</h1></Link>
-        ):(
-          //icon will come here
-         <Link href={"/"}><h1>CodeToCareer</h1></Link>
-        )
-
-        }
+        {session ? (
+          <div className="h-full">
+            <Link href="/home" className='flex  items-center justify-center gap-2'><Image src="/icons/icon-152x152.png" alt="logo" width={35} height={35} className='rounded-lg'/> <h1 className='text-2xl  mt-1 font-bold '>  CodeToCareer</h1></Link>
+          </div>
+        ) : (
+          <div className=" h-full">
+            <Link href="/" className='flex  items-center justify-center gap-2'><Image src="/icons/icon-152x152.png" alt="logo" width={40} height={40} className='rounded-lg'/> <h1 className='text-2xl font-bold mt-1'> CodeToCareer</h1></Link>
+          </div>
+        )}
       </div>
 
 
@@ -109,7 +112,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
          </ul>
        </details>
      </li>
-
+     <li><Link href={"/jobs"}>Jobs</Link></li>
      <li><Link href={"/code-reviewer"}>Code Editor</Link></li>
      <li>
        <details>
@@ -118,6 +121,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
            <li><Link href={"/technews"}>Tech News </Link></li>
            <li><Link href={"/learners-community"}>learners community</Link></li>
            <li><Link href={"/profile"}>profile</Link></li>
+           <li><Link href={"/jobs"}>Jobs</Link></li>
          </ul>
        </details>
      </li>
