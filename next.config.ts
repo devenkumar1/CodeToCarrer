@@ -35,10 +35,25 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname : "unsplash.com"
+        hostname: "unsplash.com"
       }
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/site.webmanifest',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json',
+          },
+        ],
+      },
+    ];
+  },
+
+  reactStrictMode: true,
 };
 
 export default nextConfig;

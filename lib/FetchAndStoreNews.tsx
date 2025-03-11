@@ -9,9 +9,9 @@ async function fetchAndStoreNews() {
     const newsUrl = process.env.NEWS_URL!;
     const response = await axios.get(newsUrl);
     const news = response.data;
-    console.log(news);
+    console.log("News fetch cron started");
     
-    // If needed, clear old news before storing new ones
+    // clear old news before storing new ones
     if(news.articles.length > 0){
       //if already news delete old news.
     await News.deleteMany({});

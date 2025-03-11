@@ -1,7 +1,7 @@
 import { NextResponse,NextRequest } from "next/server";
 import { News } from "@/models";
 import { connectDb } from "@/config/db.config";
-import fetchAndStoreNews from "@/lib/FetchAndStoreNews";
+
 
 export async function GET(req:NextRequest){
 await connectDb();

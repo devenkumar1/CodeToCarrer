@@ -1,5 +1,18 @@
-const ResourceTextContainer = ({ selectedLanguage }) => {
-  const resources = {
+interface ResourceDetails {
+  link: string;
+  description: string;
+}
+
+interface LanguageResources {
+  [key: string]: ResourceDetails;
+}
+
+interface Resources {
+  [key: string]: LanguageResources;
+}
+
+const ResourceTextContainer = ({ selectedLanguage }: { selectedLanguage: string }) => {
+  const resources: Resources = {
     python: {
       geekforgeeks: {
         link: "https://www.geeksforgeeks.org/python-programming-language-tutorial/",
