@@ -75,3 +75,61 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Basic syntax highlighting styles */
+.token.comment {
+  color: #6a9955 !important;
+}
+
+.token.string {
+  color: #ce9178 !important;
+}
+
+.token.number {
+  color: #b5cea8 !important;
+}
+
+.token.keyword {
+  color: #569cd6 !important;
+}
+
+.token.function {
+  color: #dcdcaa !important;
+}
+
+.token.operator {
+  color: #d4d4d4 !important;
+}
+
+.token.punctuation {
+  color: #d4d4d4 !important;
+}
+
+/* Light theme overrides */
+:root:not(.dark) .token.comment {
+  color: #008000 !important;
+}
+
+:root:not(.dark) .token.string {
+  color: #a31515 !important;
+}
+
+:root:not(.dark) .token.number {
+  color: #098658 !important;
+}
+
+:root:not(.dark) .token.keyword {
+  color: #0000ff !important;
+}
+
+:root:not(.dark) .token.function {
+  color: #795e26 !important;
+}
+
+:root:not(.dark) .token.operator {
+  color: #000000 !important;
+}
+
+:root:not(.dark) .token.punctuation {
+  color: #000000 !important;
+}
