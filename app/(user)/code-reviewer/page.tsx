@@ -1,29 +1,41 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { Code2, Send, Loader2 } from 'lucide-react';
+import React, { useState } from 'react'
+import { Code2, Send, FileCode, ChevronDown } from 'lucide-react';
 import axios from 'axios'
 import CodeReviewResult from '@/components/codeReviewResult'
 import { BasicEditor } from '@/components/BasicEditor'
 import LoadingSkeleton from '@/components/Skeleton/LoadingSkeleton'
 import toast from 'react-hot-toast';
 
+// Sample languages with their display names and values
+const LANGUAGES = [
+    { display: 'Java', value: 'java' },
+    { display: 'Python', value: 'python' },
+    { display: 'C++', value: 'cpp' },
+    { display: 'JavaScript', value: 'javascript' },
+    { display: 'Go', value: 'go' },
+    { display: 'SQL', value: 'sql' }
+];
+
 function CodeReviewer() {
     const [code, setCode] = useState("");
     const [language, setLanguage] = useState("");
     const [resultData, setResultData] = useState<any>(null);
     const [loading, setLoading] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleCodeChange = (newCode: string) => {
         setCode(newCode);
     }
 
-    const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setLanguage(e.target.value);
+    const handleLanguageChange = (lang: string) => {
+        setLanguage(lang);
+        setIsDropdownOpen(false);
     }
 
     const handleReview = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(!code || !language){
+        if (!code || !language) {
             toast.error("Please enter code and select a language");
             return;
         }
@@ -34,60 +46,92 @@ function CodeReviewer() {
             setResultData(response.data);
         } catch (error) {
             console.error("Error during code review:", error);
+            toast.error("An error occurred during code review");
         } finally {
             setLoading(false);
         }
     }
-   
-    if(loading){
-      return(
-        <div className="min-h-screen w-full flex flex-col justify-center items-center ">
-       <LoadingSkeleton/>
-          </div>
-      )
-    }
-  
-    return (
-        <main className='min-h-screen  dark:bg-black  dark:text-white bg-gray-100 text-black  '>
-            <div className="flex items-center justify-center gap-3 text-center ">
-                <Code2 className="h-10 w-10 text-blue-600 mt-7" />
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl mt-7">
-                    Code Reviewer
-                </h1>
-            </div>
 
-            <p className="mt-3 text-center text-lg text-gray-600 dark:text-gray-400">
-                Get instant feedback on your code quality and suggestions for improvement
-            </p>
-            <div className="w-full min-h-screen flex flex-col md:flex-row md:gap-5 justify-center items-center py-10 px-5 dark:bg-black  dark:text-white bg-gray-100 text-black">
-                <form className="w-full max-w-3xl p-5 bg-white dark:bg-[#212121] rounded-lg shadow-md " onSubmit={handleReview}>
-                <div className="mb-5 flex md:flex-row flex-col md:justify-between items-center gap-5">
-       <div className="flex flex-col md:flex-row gap-2 md:gap-0 items-start md:items-center">
-        <label htmlFor="language" className="block text-lg font-medium text-gray-700">Select Language</label>
-        <select
-            id="language"
-            value={language}
-            onChange={handleLanguageChange}
-            className=" px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-600 text-black dark:text-white"
-        >
-            <option value="" disabled>Select a language</option>
-            <option value="java">Java</option>
-            <option value="python">Python</option>
-            <option value="cpp">C++</option>
-            <option value="javascript">JavaScript</option>
-            <option value="go">Go</option>
-            <option value="sql">SQL</option>
-        </select>
-    </div>
-    <button type="submit" className="md:w-[20%] w-[35%] px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 md:self-center">
-        Run
-    </button>
-</div>
-                    <div className="mb-5">
-                        <BasicEditor value={code} onChange={handleCodeChange} language={language} />
+    if (loading) {
+        return (
+            <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900">
+                <LoadingSkeleton />
+            </div>
+        )
+    }
+
+    return (
+        <main className='min-h-screen bg-gray-50 dark:bg-gray-900 text-black dark:text-white'>
+            <div className="container mx-auto px-4 md:py-8 py-2">
+                <div className="flex items-center justify-center md:gap-3 gap-2 text-center mb-6">
+                    <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
+                        <Code2 className=" h-3 w-3 md:h-8 md:w-8 text-blue-600 dark:text-blue-300" />
                     </div>
-                </form>
-                {resultData && <CodeReviewResult result={resultData} />}
+                    <h1 className="md:text-3xl text-xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                        Code Reviewer
+                    </h1>
+                </div>
+
+                <p className="mt-3 text-center text-sm md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+                    Get instant feedback on your code quality and suggestions for improvement
+                </p>
+
+                <div className="w-full flex flex-col  lg:flex-row gap-2 md:gap-8 justify-center items-start">
+                    <form className="w-full lg:w-3/5 bg-white dark:bg-[#212121] rounded-xl shadow-xl overflow-hidden" onSubmit={handleReview}>
+                        <div className="md:p-6 p-2 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
+                            <div className="relative w-full md:w-auto">
+                                <button
+                                    type="button"
+                                    className="flex items-center justify-between w-full md:w-48 px-4 py-1 md:py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                >
+                                    <div className="flex items-center">
+                                        <FileCode className="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400" />
+                                        {language ? LANGUAGES.find(l => l.value === language)?.display || language : 'Select Language'}
+                                    </div>
+                                    <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                                </button>
+
+                                {isDropdownOpen && (
+                                    <div className="absolute z-10 w-full md:w-48 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                                        <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                            {LANGUAGES.map((lang) => (
+                                                <li key={lang.value}>
+                                                    <button
+                                                        type="button"
+                                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                        onClick={() => handleLanguageChange(lang.value)}
+                                                    >
+                                                        {lang.display}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="flex items-center justify-center md:px-6 px-2 py-1 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-colors duration-200 w-full md:w-auto"
+                                disabled={!code || !language}
+                            >
+                                <Send className="md:w-4 md:h-4 w-2 h-3 mr-2" />
+                                Review Code
+                            </button>
+                        </div>
+
+                        <div className="p-0">
+                            <BasicEditor value={code} onChange={handleCodeChange} language={language} />
+                        </div>
+                    </form>
+
+                    {resultData && (
+                        <div className="w-full lg:w-2/5 sticky top-8">
+                            <CodeReviewResult result={resultData} />
+                        </div>
+                    )}
+                </div>
             </div>
         </main>
     )
