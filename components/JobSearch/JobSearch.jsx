@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import JobCard from "../../components/ui/JobCard";
-import LinkedIn from "linkedin-jobs-api";
 import { useEffect } from "react";
 
 const JobSearch = () => {
