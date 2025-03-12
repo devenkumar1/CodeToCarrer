@@ -1,20 +1,28 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import Providers from "@/components/provider";
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
 import ClientLayout from "./ClientLayout";
+import { Poppins } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Load the font with desired weights and subsets
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["400", "700"], // Specify the required weights
+  variable: "--font-poppins", // Set a CSS variable
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: 'Code To Career',
@@ -51,8 +59,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className={poppins.variable}>
+      <body>
         <Providers>
           <Toaster />
           <ClientLayout>
