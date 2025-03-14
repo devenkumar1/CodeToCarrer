@@ -7,6 +7,8 @@ import { useUserStore } from '@/store/userStore';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { IoHome } from "react-icons/io5";
+import Image from 'next/image';
+
 interface NavbarProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,7 +32,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
   },[])
 
   return (
-    <div className="navbar  dark:text-white text-black">
+    <div className="navbar sticky top-0 w-full dark:bg-black/70 bg-white/70 backdrop-blur-sm shadow-md z-50 dark:text-white text-black">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -85,41 +87,53 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
         </div>
         {session?(
           //icon will come here
-          <Link href={"/home"}><h1>CodeToCareer</h1></Link>
+          <Link href={"/home"} className="flex items-center gap-2">
+            <Image 
+              src="/icons/icon-144x144.png" 
+              alt="CodeToCareer Logo" 
+              width={32} 
+              height={32} 
+              className="hidden lg:block"
+            />
+            <h1 className="text-xl font-semibold">CodeToCareer</h1>
+          </Link>
         ):(
           //icon will come here
-         <Link href={"/"}><h1>CodeToCareer</h1></Link>
-        )
-
-        }
+          <Link href={"/"} className="flex items-center gap-2">
+            <Image 
+              src="/icons/icon-144x144.png" 
+              alt="CodeToCareer Logo" 
+              width={32} 
+              height={32} 
+              className="hidden lg:block"
+            />
+            <h1>CodeToCareer</h1>
+          </Link>
+        )}
       </div>
 
 
 
 {session ? (
    <div className="navbar-center hidden lg:flex">
-   <ul className="menu menu-horizontal px-1 text-lg font-bold">
-     <li><Link href={"/learning-path"}>Learning paths </Link></li>
-     <li>
-       <details>
-         <summary>Learning</summary>
-         <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
-           <li><Link href={"/AiMentor"}>AI Mentor </Link></li>
-           <li><Link href={"/test"}>Test</Link></li>
-         </ul>
-       </details>
+   <ul className="menu menu-horizontal px-1 text-base font-medium items-center">
+     <li><Link href={"/learning-path"} className="px-4 py-2 hover:text-blue-600 transition-colors">Learning paths</Link></li>
+     <li className="dropdown dropdown-hover">
+       <div tabIndex={0} role="button" className="px-4 py-2 hover:text-blue-600 transition-colors">Learning</div>
+       <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
+         <li><Link href={"/AiMentor"} className="hover:text-blue-600 transition-colors">AI Mentor</Link></li>
+         <li><Link href={"/test"} className="hover:text-blue-600 transition-colors">Test</Link></li>
+       </ul>
      </li>
 
-     <li><Link href={"/code-reviewer"}>Code Editor</Link></li>
-     <li>
-       <details>
-         <summary>More</summary>
-         <ul className="p-2 w-[12vw] z-20 dark:bg-black bg-slate-100">
-           <li><Link href={"/technews"}>Tech News </Link></li>
-           <li><Link href={"/learners-community"}>learners community</Link></li>
-           <li><Link href={"/profile"}>profile</Link></li>
-         </ul>
-       </details>
+     <li><Link href={"/code-reviewer"} className="px-4 py-2 hover:text-blue-600 transition-colors">Code Editor</Link></li>
+     <li className="dropdown dropdown-hover">
+       <div tabIndex={0} role="button" className="px-4 py-2 hover:text-blue-600 transition-colors">More</div>
+       <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
+         <li><Link href={"/technews"} className="hover:text-blue-600 transition-colors">Tech News</Link></li>
+         <li><Link href={"/learners-community"} className="hover:text-blue-600 transition-colors">learners community</Link></li>
+         <li><Link href={"/profile"} className="hover:text-blue-600 transition-colors">profile</Link></li>
+       </ul>
      </li>
    </ul>
  </div>
@@ -135,9 +149,19 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
 }
       <div className="navbar-end flex gap-2">
         {session ? (
-          <button className="btn bg-red-500 text-white" onClick={() => signOut()}>Logout</button>
+          <button
+            className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
+            onClick={() => signOut()}
+          >
+            Logout
+          </button>
         ) : (
-          <button className="btn bg-white dark:bg-slate-800" onClick={() => router.push("/auth/login")}>Login</button>
+          <button
+            className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+            onClick={() => router.push("/auth/login")}
+          >
+            Login
+          </button>
         )}
         <label className="swap swap-rotate">
           <input type="checkbox" checked={isDarkMode} onChange={handleThemeToggle} />

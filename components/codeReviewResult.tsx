@@ -122,10 +122,10 @@ function CodeReviewResult({ result }: { result: any }) {
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Code className="w-5 h-5 text-blue-500" />
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Detailed Review</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-500">Detailed Review</h3>
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                  <div className="text-sm text-gray-800 dark:text-gray-200 prose dark:prose-invert max-w-none">
+                  <div className="text-sm text-gray-800 dark:text-gray-400 prose dark:prose-invert max-w-none">
                     {result.review}
                   </div>
                 </div>
