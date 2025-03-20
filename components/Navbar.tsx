@@ -1,12 +1,13 @@
-"use client";
-import React from "react";
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useUserStore } from "@/store/userStore";
-import { useEffect } from "react";
-import Link from "next/link";
-import Image from "next/legacy/image";
+'use client';
+import React from 'react';
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/store/userStore';
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { IoHome } from "react-icons/io5";
+import Image from 'next/image';
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -29,7 +30,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
   }, []);
 
   return (
-    <div className="navbar fixed top-0 left-0 w-full dark:bg-black/70 bg-white/70 backdrop-blur-sm shadow-md z-50 dark:text-white text-black">
+    <div className="navbar sticky top-0 w-full dark:bg-black/70 bg-white/70 backdrop-blur-sm shadow-md z-50 dark:text-white text-black">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -101,120 +102,79 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
           )}
           {/*Not logged In */}
         </div>
-        {session ? (
-          <div className="h-full">
-            <Link
-              href="/home"
-              className="flex  items-center justify-center gap-2"
-            >
-              <Image
-                src="/icons/icon-152x152.png"
-                alt="logo"
-                width={35}
-                height={35}
-                className="rounded-lg"
-              />{" "}
-              <h1 className="text-2xl  mt-1 font-bold ">CodeToCareer</h1>
-            </Link>
-          </div>
-        ) : (
-          <div className=" h-full">
-            <Link href="/" className="flex  items-center justify-center gap-2">
-              <Image
-                src="/icons/icon-152x152.png"
-                alt="logo"
-                width={40}
-                height={40}
-                className="rounded-lg"
-              />{" "}
-              <h1 className="text-2xl font-bold mt-1">CodeToCareer</h1>
-            </Link>
-          </div>
+        {session?(
+          //icon will come here
+          <Link href={"/home"} className="flex items-center gap-2">
+            <Image 
+              src="/icons/icon-144x144.png" 
+              alt="CodeToCareer Logo" 
+              width={32} 
+              height={32} 
+              className="hidden lg:block"
+            />
+            <h1 className="text-xl font-semibold">CodeToCareer</h1>
+          </Link>
+        ):(
+          //icon will come here
+          <Link href={"/"} className="flex items-center gap-2">
+            <Image 
+              src="/icons/icon-144x144.png" 
+              alt="CodeToCareer Logo" 
+              width={32} 
+              height={32} 
+              className="hidden lg:block"
+            />
+            <h1>CodeToCareer</h1>
+          </Link>
         )}
       </div>
 
-      {session ? (
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-lg font-bold">
-            <li>
-              <Link href={"/learning-path"}>Learning paths </Link>
-            </li>
-            <li>
-              <div className="relative group">
-                {/* Learning Button */}
-                <button className="cursor-pointer">Learning</button>
 
-                {/* Dropdown Menu */}
-                <ul className="absolute left-0 top-full mt-1 p-2 w-[12vw] z-20 dark:bg-black bg-slate-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                  <li>
-                    <Link
-                      href="/AiMentor"
-                      className="block px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                    >
-                      AI Mentor
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/test"
-                      className="block px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                    >
-                      Test
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <Link href={"/jobs"}>Jobs</Link>
-            </li>
-            <li>
-              <Link href={"/code-reviewer"}>Code Editor</Link>
-            </li>
-            <li>
-              <div className="relative group">
-                <button className="cursor-pointer">More</button>
-                <ul className=" absolute left-0 top-full mt-2 p-2 w-[12vw] z-20 dark:bg-black bg-slate-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                  <li>
-                    <Link href="/technews">Tech News</Link>
-                  </li>
-                  <li>
-                    <Link href="/learners-community">Learners Community</Link>
-                  </li>
-                  <li>
-                    <Link href="/profile">Profile</Link>
-                  </li>
-                  <li>
-                    <Link href="/jobs">Jobs</Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-      ) : (
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>Home</a>
-            </li>
-            <li>
-              <a>About</a>
-            </li>
-          </ul>
-        </div>
-      )}
+
+{session ? (
+   <div className="navbar-center hidden lg:flex">
+   <ul className="menu menu-horizontal px-1 text-base font-medium items-center">
+     <li><Link href={"/learning-path"} className="px-4 py-2 hover:text-blue-600 transition-colors">Learning paths</Link></li>
+     <li className="dropdown dropdown-hover">
+       <div tabIndex={0} role="button" className="px-4 py-2 hover:text-blue-600 transition-colors">Learning</div>
+       <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
+         <li><Link href={"/AiMentor"} className="hover:text-blue-600 transition-colors">AI Mentor</Link></li>
+         <li><Link href={"/test"} className="hover:text-blue-600 transition-colors">Test</Link></li>
+       </ul>
+     </li>
+
+     <li><Link href={"/code-reviewer"} className="px-4 py-2 hover:text-blue-600 transition-colors">Code Editor</Link></li>
+     <li className="dropdown dropdown-hover">
+       <div tabIndex={0} role="button" className="px-4 py-2 hover:text-blue-600 transition-colors">More</div>
+       <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
+         <li><Link href={"/technews"} className="hover:text-blue-600 transition-colors">Tech News</Link></li>
+         <li><Link href={"/learners-community"} className="hover:text-blue-600 transition-colors">learners community</Link></li>
+         <li><Link href={"/profile"} className="hover:text-blue-600 transition-colors">profile</Link></li>
+       </ul>
+     </li>
+   </ul>
+ </div>
+):(
+  <div className="navbar-center hidden lg:flex">
+  <ul className="menu menu-horizontal px-1">
+    <li><a>Home</a></li>
+    <li><a>About</a></li>
+  </ul>
+</div>
+)
+
+}
       <div className="navbar-end flex gap-2">
         {session ? (
           <button
-            className="px-3 py-2 font-medium rounded-3xl bg-red-500 text-white"
+            className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
             onClick={() => signOut()}
           >
             Logout
           </button>
         ) : (
           <button
-            className="btn bg-white dark:bg-slate-800"
+            className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
             onClick={() => router.push("/auth/login")}
           >
             Login

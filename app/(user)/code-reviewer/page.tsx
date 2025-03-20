@@ -78,7 +78,7 @@ function CodeReviewer() {
 
                 <div className="w-full flex flex-col  lg:flex-row gap-2 md:gap-8 justify-center items-start">
                     <form className="w-full lg:w-3/5 bg-white dark:bg-[#212121] rounded-xl shadow-xl overflow-hidden" onSubmit={handleReview}>
-                        <div className="md:p-6 p-2 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="md:p-3 p-2 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
                             <div className="relative w-full md:w-auto">
                                 <button
                                     type="button"
@@ -86,7 +86,7 @@ function CodeReviewer() {
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 >
                                     <div className="flex items-center">
-                                        <FileCode className="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400" />
+                                        <FileCode className="w-5 h-5  text-gray-500 dark:text-gray-400" />
                                         {language ? LANGUAGES.find(l => l.value === language)?.display || language : 'Select Language'}
                                     </div>
                                     <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />

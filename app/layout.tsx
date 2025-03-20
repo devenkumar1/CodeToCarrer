@@ -1,43 +1,34 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import Providers from "@/components/provider";
-// import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import ClientLayout from "./ClientLayout";
 import { Poppins } from "next/font/google";
 
-// Load the font with desired weights and subsets
 const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "700"], // Specify the required weights
-  variable: "--font-poppins", // Set a CSS variable
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins',
+  display: 'swap',
 });
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+export const viewport: Viewport = {
+  themeColor: '#111827',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: 'Code To Career',
   description: 'An AI based smart learning platform with features like AI Mentor, AI code reviewer, community, and more...',
   manifest: '/site.webmanifest',
-  themeColor: '#111827',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'Code To Career',
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
   },
   icons: {
     icon: [
@@ -59,13 +50,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={poppins.variable}>
-      <body>
+    <html lang="en" className={`${poppins.variable}`}>
+      <body className="font-poppins">
         <Providers>
-          <Toaster />
           <ClientLayout>
             {children}
           </ClientLayout>
+          <Toaster position="bottom-right" />
         </Providers>
       </body>
     </html>
