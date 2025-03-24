@@ -28,12 +28,6 @@ export async function POST(req:NextRequest) {
     });
 
     await newUser.save();
-    await fetch(`${process.env.NEXTAUTH_URL}/sendMail`, {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify({ email: newUser.email, name: newUser.name }),
-    });
-    console.log("signup fetch ran succesfully")
 
     return NextResponse.json({ message: "User registered successfully" }, { status: 201 });
   } catch (error) {
