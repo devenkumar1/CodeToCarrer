@@ -5,7 +5,6 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Metadata, Viewport } from "next";
 import ClientLayout from "./ClientLayout";
-import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
   subsets: ['latin'],
