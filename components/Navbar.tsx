@@ -72,6 +72,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
               <ul className="p-2">
               <li><Link href={"/technews"}>Tech News </Link></li>
               <li><Link href={"/learners-community"}>learners community</Link></li>
+              <li><Link href={"/job-search"}>Job Search</Link></li>
               </ul>
           </ul>: <ul
             tabIndex={0}
@@ -132,6 +133,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
          <li><Link href={"/technews"} className="hover:text-blue-600 transition-colors">Tech News</Link></li>
          <li><Link href={"/learners-community"} className="hover:text-blue-600 transition-colors">learners community</Link></li>
+         <li><Link href={"/job-search"}>Job Search</Link></li>
          <li><Link href={"/profile"} className="hover:text-blue-600 transition-colors">profile</Link></li>
        </ul>
      </li>
