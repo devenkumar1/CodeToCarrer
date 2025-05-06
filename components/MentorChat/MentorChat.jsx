@@ -138,11 +138,11 @@ const ChatBot = () => {
           {activeChat?.messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.senderId === "user" ? "justify-end" : "justify-start"} mb-4`}
+              className={`flex ${message.receiverId === "gemini" ? "justify-start" : "justify-end"} mb-4`}
             >
               <div
                 className={`max-w-[70%] p-3 rounded-lg ${
-                  message.senderId === "user"
+                  message.receiverId != "gemini"
                     ? "bg-blue-500 text-white"
                     : "bg-gray-700 text-white"
                 } shadow-sm`}
