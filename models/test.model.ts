@@ -1,38 +1,20 @@
-import mongoose from "mongoose";
+// models/Test.ts
+import mongoose, { Document, Schema } from 'mongoose';
 
-export interface ITest {
+export interface ITest extends Document {
   testName: string;
-  part: number;
   questions: mongoose.Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-const TestSchema = new mongoose.Schema({
-  testName: {
-    type: String,
-    required: true,
+const TestSchema = new Schema<ITest>(
+  {
+    testName: { type: String, required: true },
+    questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
   },
-  part: {
-    type: Number,
-    required: true,
-  },
-  questions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
-    },
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
-const Test =
-  mongoose.models.Test || mongoose.model<ITest>("Test", TestSchema);
+const Test = mongoose.models.Test || mongoose.model<ITest>('Test', TestSchema);
 export default Test;

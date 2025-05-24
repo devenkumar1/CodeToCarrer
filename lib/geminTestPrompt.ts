@@ -24,21 +24,13 @@ export const generateTopicTestsPrompt = (topicName: string) => {
           {
             "question": "What is ...?",
             "options": ["Option A", "Option B", "Option C", "Option D"],
-            "correctAnswer": ["Option B"]
+            "correctAnswer": "Option B"
           },
           ...
           (30 questions total)
         ]
-      },
-      {
-        "testName": "Test 2 - ${topicName}",
-        "questions": [ ... ]
-      },
-      {
-        "testName": "Test 3 - ${topicName}",
-        "questions": [ ... ]
       }
-    ]
+    
   }
   `;
   };

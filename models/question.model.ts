@@ -1,39 +1,21 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
-export interface IQuestion {
+export interface IQuestion extends Document {
   question: string;
   options: string[];
-  correctAnswer: string; // changed from string[] to string
+  correctAnswer: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-const QuestionSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
+const QuestionSchema = new mongoose.Schema<IQuestion>(
+  {
+    question: { type: String, required: true },
+    options: [{ type: String, required: true }],
+    correctAnswer: { type: String, required: true }, // fixed
   },
-  options: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  correctAnswer: [
-    {
-    type: String,
-    required: true,
-  }
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 const Question =
   mongoose.models.Question || mongoose.model<IQuestion>("Question", QuestionSchema);

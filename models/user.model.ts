@@ -16,6 +16,7 @@ export interface IUser {
   roadmaps?:mongoose.Types.ObjectId[],
   questionsAsked?:mongoose.Types.ObjectId[],
   answersGiven?:mongoose.Types.ObjectId[],
+  tests?: mongoose.Types.ObjectId[];
 
 }
 
@@ -67,6 +68,11 @@ const userSchema = new mongoose.Schema<IUser>(
   answersGiven: [{
     type: Schema.Types.ObjectId,
     ref: 'Answer' // Answers the user has provided
+  }],
+
+tests: [{
+   type: Schema.Types.ObjectId,
+   ref: 'Test' 
   }],
   },
   {
