@@ -53,10 +53,25 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        console.log('Fetching dashboard stats...');
         const response = await axios.get('/api/test/stats');
+        // console.log('Dashboard stats response:', response.data);
+        if (!response.data.stats) {
+          console.error('No stats data in response:', response.data);
+          toast.error('Invalid dashboard data received');
+          return;
+        }
         setStats(response.data.stats);
+        console.log('Stats set to state:', response.data.stats);
       } catch (error) {
         console.error('Error fetching stats:', error);
+        if (axios.isAxiosError(error)) {
+          console.error('Axios error details:', {
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message
+          });
+        }
         toast.error('Failed to load dashboard data');
       } finally {
         setIsLoading(false);

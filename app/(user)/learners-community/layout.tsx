@@ -57,7 +57,7 @@ export default function LearnerCommunityLayout({
   }, []);
 
   if (isLoading) {
-    return (
+  return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
@@ -139,10 +139,10 @@ export default function LearnerCommunityLayout({
         <div className="flex-1 min-h-screen">
           <div className="max-w-4xl mx-auto px-4 py-6">
             {children}
-          </div>
         </div>
+      </div>
 
-        {/* Mobile bottom navigation */}
+      {/* Mobile bottom navigation */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
           <div className="flex justify-around">
             <Link

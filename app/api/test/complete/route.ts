@@ -9,12 +9,13 @@ import mongoose from 'mongoose';
 
 export async function POST(req: NextRequest) {
   try {
-    console.log('Test completion request received');
+   
     await connectDb();
 
     // Get user session
     const session = await getServerSession(authOptions) as CustomSession;
     if (!session?.user?.id) {
+ 
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -22,13 +23,14 @@ export async function POST(req: NextRequest) {
     }
 
     const userId = session.user.id;
+    
 
     // Validate request body
     const body = await req.json();
     const { testId, marksScored, totalMarks } = body;
+    
 
     if (!testId || !mongoose.Types.ObjectId.isValid(testId)) {
-      console.log('Invalid test ID:', testId);
       return NextResponse.json(
         { error: 'Invalid test ID' },
         { status: 400 }
@@ -36,7 +38,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (typeof marksScored !== 'number' || typeof totalMarks !== 'number') {
-      console.log('Invalid marks data:', { marksScored, totalMarks });
       return NextResponse.json(
         { error: 'Invalid marks data' },
         { status: 400 }
@@ -46,16 +47,17 @@ export async function POST(req: NextRequest) {
     // Check if user has access to this test
     const user = await User.findById(userId).populate('tests');
     if (!user) {
-      console.log('User not found:', userId);
+      console.log('Test completion API: User not found:', userId);
       return NextResponse.json(
         { error: 'User not found' },
         { status: 404 }
       );
     }
 
+
     const hasAccess = user.tests.some((test: any) => test._id.toString() === testId);
     if (!hasAccess) {
-      console.log('Access denied for user:', userId, 'test:', testId);
+     
       return NextResponse.json(
         { error: 'You do not have access to this test' },
         { status: 403 }
@@ -63,31 +65,25 @@ export async function POST(req: NextRequest) {
     }
 
     // Update test completion status
-    const test = await Test.findByIdAndUpdate(
-      testId,
-      {
-        isCompleted: true,
-        marksScored,
-        totalMarks,
-        completedAt: new Date()
-      },
-      { new: true }
-    ).populate('questions');
-
+    const test = await Test.findById(testId);
     if (!test) {
-      console.log('Test not found:', testId);
       return NextResponse.json(
         { error: 'Test not found' },
         { status: 404 }
       );
     }
+    // Update test fields
+    test.isCompleted = true;
+    test.marksScored = marksScored;
+    test.totalMarks = totalMarks;
+    test.completedAt = new Date();
+    
+    // Save the updated test
+    await test.save();
+    
+    // Populate questions for the response
+    await test.populate('questions');
 
-    console.log('Test completed successfully:', {
-      testId,
-      userId,
-      marksScored,
-      totalMarks
-    });
 
     return NextResponse.json({
       message: 'Test completed successfully',
@@ -95,7 +91,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error completing test:', error);
+    console.error('Test completion API: Error completing test:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -20,17 +20,22 @@ export async function GET(req: NextRequest) {
     // Get all tests for the user
     const user = await User.findById(userId).populate({
       path: 'tests',
-      select: 'testName marksScored totalMarks completedAt',
+      select: 'testName marksScored totalMarks completedAt isCompleted',
     });
 
     if (!user) {
+      console.log('Stats API: User not found:', userId);
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
+
     const allTests = user.tests || [];
     const totalTests = allTests.length;
-    const completedTests = allTests.filter((test: any) => test.isCompleted);
+    const completedTests = allTests.filter((test: any) => {
+      return test.isCompleted;
+    });
     const completedTestsCount = completedTests.length;
+
 
     // Calculate statistics
     const totalMarksScored = completedTests.reduce((sum: number, test: any) => sum + (test.marksScored || 0), 0);
@@ -57,13 +62,15 @@ export async function GET(req: NextRequest) {
       recentTests,
     };
 
+    // console.log('Stats API: Final stats object:', stats);
+
     return NextResponse.json({
       message: 'Test statistics fetched successfully',
       stats
     }, { status: 200 });
 
   } catch (error) {
-    console.error('Error fetching test statistics:', error);
+    console.error('Stats API: Error fetching test statistics:', error);
     return NextResponse.json({
       message: 'Error fetching test statistics',
       error: error instanceof Error ? error.message : 'Unknown error'
