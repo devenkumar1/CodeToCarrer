@@ -12,17 +12,31 @@ interface IState {
 }
 
 // Create the store
-  export const useUserStore = create<IState>()(
+export const useUserStore = create<IState>()(
   immer<IState>((set) => ({
     userData: null,
     userTheme: "dark",
     setUserData: async (): Promise<void> => {
       try {
-        const response = await axios.post('/api/user',{});
-        set((state) => {
-          state.userData = response.data.user;
-          console.log("user fetched from the db and stored in store",state.userData);
-        });
+        const response = await axios.post('/api/user', {});
+        const userData = response.data.user;
+        
+        if (userData) {
+          const questionsResponse = await axios.get('/api/learners-community/profile');
+          
+          if (questionsResponse.data) {
+            // Merge the profile data with user data
+            const updatedUserData = {
+              ...userData,
+              questionsAsked: questionsResponse.data.questionsAsked || 0,
+              recentQuestions: questionsResponse.data.recentQuestions || []
+            };
+            
+            set((state) => {
+              state.userData = updatedUserData;
+            });
+          }
+        }
       } catch (error) {
         console.error("Failed to fetch user data", error);
       }

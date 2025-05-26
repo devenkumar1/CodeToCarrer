@@ -23,33 +23,44 @@ try {
 
     if (!Array.isArray(tests)) {
       console.error("❌ Parsed result is not an array of tests.");
-      return;
+      throw new Error("Invalid test format received from AI");
     }
 
+    console.log(`✅ Parsed ${tests.length} tests from AI response`);
+
     for (const test of tests) {
+      console.log(`Creating test: ${test.testName}`);
+      console.log(`Number of questions in test: ${test.questions.length}`);
+
       const questionDocs = await Question.insertMany(test.questions.map((q: any) => ({
         question: q.question,
         options: q.options,
         correctAnswer: q.correctAnswer,
       })));
 
+      console.log(`✅ Created ${questionDocs.length} questions`);
+
       const newTest = await Test.create({
         testName: test.testName,
         questions: questionDocs.map(q => q._id),
       });
 
+      console.log(`✅ Created test document with ID: ${newTest._id}`);
+
       if (userId) {
-        await User.findByIdAndUpdate(userId, {
+        const updatedUser = await User.findByIdAndUpdate(userId, {
           $push: { tests: newTest._id },
-        });
+        }, { new: true });
+        console.log(`✅ Added test to user ${userId}, total tests: ${updatedUser?.tests?.length || 0}`);
       }
 
       console.log(`✅ Saved test: ${newTest.testName}`);
     }
 
-    console.log("✅ All tests saved once.");
+    console.log("✅ All tests saved successfully");
   } catch (err) {
     console.error("❌ Error during test generation or saving:", err);
+    throw err; // Re-throw to handle in the API route
   }
 }
 

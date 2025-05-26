@@ -1,13 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-import { FiSend, FiSearch, FiPlus, FiMenu } from "react-icons/fi";
+import { FiSend, FiSearch, FiPlus, FiMenu, FiTrash2, FiAlertTriangle } from "react-icons/fi";
 import { format } from 'date-fns';
 import LoadingSkeleton from "../Skeleton/LoadingSkeleton";
 import { useChatStore } from "@/store/chatStore";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const ChatBot = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const chatEndRef = useRef(null);
   
   const { 
@@ -38,6 +42,25 @@ const ChatBot = () => {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (!confirm('Are you sure you want to delete all chats? This action cannot be undone.')) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const response = await axios.delete('/api/chat/delete-all');
+      toast.success(`Successfully deleted ${response.data.deletedCount} chats`);
+      await fetchAllChats(); // Refresh the chat list
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error('Error deleting chats:', error);
+      toast.error(error.response?.data?.error || 'Failed to delete chats');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() || !activeChat) return;
@@ -65,7 +88,7 @@ const ChatBot = () => {
       <div
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed md:relative md:translate-x-0 z-30 w-72 h-full transition-transform duration-300 ease-in-out bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700`}
+        } fixed md:relative md:translate-x-0 z-30 w-72 h-full transition-transform duration-300 ease-in-out bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col`}
       >
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
@@ -94,7 +117,9 @@ const ChatBot = () => {
             />
           </div>
         </div>
-        <div className="overflow-y-auto h-[calc(100vh-130px)]">
+
+        {/* Chat List */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {filteredChats.map((chat) => (
             <div
               key={chat._id}
@@ -116,6 +141,50 @@ const ChatBot = () => {
             </div>
           ))}
         </div>
+
+        {/* Delete All Button - Fixed at bottom */}
+        {filteredChats.length > 0 && (
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+            >
+              <FiTrash2 className="w-5 h-5" />
+              Delete All Chats
+            </button>
+          </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
+              <div className="flex items-center gap-3 mb-4">
+                <FiAlertTriangle className="w-6 h-6 text-red-500" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Delete All Chats</h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                Are you sure you want to delete all your chats? This action cannot be undone.
+              </p>
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  disabled={isDeleting}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteAll}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? 'Deleting...' : 'Delete All'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Main Chat Area */}

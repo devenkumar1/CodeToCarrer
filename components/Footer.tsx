@@ -31,10 +31,10 @@ function Footer() {
   </nav>
   <nav>
     <h6 className="footer-title">Socials</h6>
-    <a className="link link-hover">GitHub</a>
-    <a className="link link-hover">LinkedIn</a>
-    <a className="link link-hover">Facebook</a>
-    <a className="link link-hover">Instagram</a>
+    <a href="https://github.com/devenkumar1" target="_blank" rel="noopener noreferrer" className="link link-hover">GitHub</a>
+    <a href="https://www.linkedin.com/in/deven-kumar-chaurasia/" target="_blank" rel="noopener noreferrer" className="link link-hover">LinkedIn</a>
+    <a href="https://www.facebook.com/deven.kumar.12139/" target="_blank" rel="noopener noreferrer" className="link link-hover">Facebook</a>
+    <a href="https://www.instagram.com/deven.sunny/" target="_blank" rel="noopener noreferrer" className="link link-hover">Instagram</a>
   </nav>
   <nav>
     <h6 className="footer-title">Legal</h6>

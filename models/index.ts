@@ -6,5 +6,7 @@ import News from './news.model';
 import Roadmap from './roadmap.model';
 import Answer from './answer.model';
 import Post from './post.model';
-import Vote from './vote.model'
-export { User, Chat, Message, News,Roadmap,Answer,Vote,Post};
+import Vote from './vote.model';
+import Test from './test.model';
+
+export { User, Chat, Message, News, Roadmap, Answer, Vote, Post, Test };

@@ -59,13 +59,7 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li><Link href={"/home"}>Home</Link></li>
-            <li>
-              <Link href={"/dashboard"}>dashboard</Link>
-              <ul className="p-2">
-                <li><Link href={"/AiMentor"}>Ai Mentor</Link></li>
-                <li><Link href={"/code-reviewer"}>code editor</Link></li>
-              </ul>
-            </li>
+            <li><Link href={"/dashboard"}>Dashboard</Link></li>
             <li><Link href={"/learning-path"}>Learning paths</Link></li> 
             <br />
             <p>more...</p>
@@ -118,23 +112,24 @@ function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
 {session ? (
    <div className="navbar-center hidden lg:flex">
    <ul className="menu menu-horizontal px-1 text-base font-medium items-center">
+     <li><Link href={"/dashboard"} className="px-4 py-2 hover:text-blue-600 transition-colors">Dashboard</Link></li>
      <li><Link href={"/learning-path"} className="px-4 py-2 hover:text-blue-600 transition-colors">Learning paths</Link></li>
      <li className="dropdown dropdown-hover">
        <div tabIndex={0} role="button" className="px-4 py-2 hover:text-blue-600 transition-colors">Learning</div>
        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
          <li><Link href={"/AiMentor"} className="hover:text-blue-600 transition-colors">AI Mentor</Link></li>
          <li><Link href={"/test"} className="hover:text-blue-600 transition-colors">Test</Link></li>
+         <li><Link href={"/your-tests"} className="hover:text-blue-600 transition-colors">Your Tests</Link></li>
        </ul>
      </li>
-
      <li><Link href={"/code-reviewer"} className="px-4 py-2 hover:text-blue-600 transition-colors">Code Editor</Link></li>
      <li className="dropdown dropdown-hover">
        <div tabIndex={0} role="button" className="px-4 py-2 hover:text-blue-600 transition-colors">More</div>
        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 dark:bg-black rounded-box w-52">
          <li><Link href={"/technews"} className="hover:text-blue-600 transition-colors">Tech News</Link></li>
-         <li><Link href={"/learners-community"} className="hover:text-blue-600 transition-colors">learners community</Link></li>
+         <li><Link href={"/learners-community"} className="hover:text-blue-600 transition-colors">Learners Community</Link></li>
          <li><Link href={"/job-search"}>Job Search</Link></li>
-         <li><Link href={"/profile"} className="hover:text-blue-600 transition-colors">profile</Link></li>
+         <li><Link href={"/profile"} className="hover:text-blue-600 transition-colors">Profile</Link></li>
        </ul>
      </li>
    </ul>
