@@ -9,7 +9,6 @@ export interface Ianswer {
     updatedAt?: Date;
     votes?: mongoose.Types.ObjectId[];
     accepted?: boolean;
-
 }
 
 
