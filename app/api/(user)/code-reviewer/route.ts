@@ -63,7 +63,7 @@ The output should be a valid JSON object. Here’s an example format of what the
 `;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
     const result = await model.generateContent(prompt);
 
     // Log the raw response to check if it's valid JSON
