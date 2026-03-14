@@ -2,10 +2,24 @@ import { NextResponse, NextRequest } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const POST = async (req: NextRequest) => {
-  const apiKey = process.env.GEMINI_API_KEY!;
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: "Missing GEMINI_API_KEY in server environment." },
+      { status: 500 },
+    );
+  }
+
   const genAI = new GoogleGenerativeAI(apiKey);
   const ReqBody = await req.json();
   const { language, code } = ReqBody;
+
+  if (!language || !code) {
+    return NextResponse.json(
+      { error: "Both 'language' and 'code' are required." },
+      { status: 400 },
+    );
+  }
 
   const prompt = `Analyze and evaluate the following code, providing a structured JSON response. The user has provided the code and the programming language. Your response MUST be a valid JSON object with the following keys: 
 
@@ -51,11 +65,11 @@ The output should be a valid JSON object. Here’s an example format of what the
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const result = await model.generateContent(prompt);
-    
+
     // Log the raw response to check if it's valid JSON
     const responseText = result.response.text();
     // console.log("Raw response from the model:", responseText);
-    const jsonResponseText = responseText.replace(/```json|```/g, '').trim();
+    const jsonResponseText = responseText.replace(/```json|```/g, "").trim();
 
     // Try parsing the response text after removing Markdown formatting
     let parsedResult;
@@ -63,13 +77,36 @@ The output should be a valid JSON object. Here’s an example format of what the
       parsedResult = JSON.parse(jsonResponseText);
     } catch (error) {
       console.error("Error parsing JSON:", error);
-      return NextResponse.json({ error: "The response from the model was not valid JSON." });
+      return NextResponse.json(
+        { error: "The response from the model was not valid JSON." },
+        { status: 502 },
+      );
     }
 
     // Return the parsed JSON directly if it's valid
     return NextResponse.json(parsedResult);
   } catch (error) {
     console.error("Error generating content:", error);
-    return NextResponse.json({ error: "An error occurred while generating the code review." });
+    const err = error as { message?: string; status?: number };
+    const message = err?.message ?? "Unknown error";
+
+    if (
+      message.includes("API_KEY_HTTP_REFERRER_BLOCKED") ||
+      message.includes("Requests from referer <empty> are blocked")
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Gemini API key is blocked by HTTP referrer restrictions. For Next.js server routes, use a server key without HTTP referrer restrictions (or use IP restrictions) and allow Generative Language API.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const status = typeof err?.status === "number" ? err.status : 500;
+    return NextResponse.json(
+      { error: "An error occurred while generating the code review." },
+      { status },
+    );
   }
 };
